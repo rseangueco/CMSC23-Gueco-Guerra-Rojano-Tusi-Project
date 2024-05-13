@@ -11,8 +11,8 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
+  List<TextEditingController> _addressControllers = [TextEditingController()];
   
   @override
   Widget build(BuildContext context) {
@@ -45,15 +45,6 @@ class _SignupPageState extends State<SignupPage> {
       ),
     );
 
-    final address = TextField(
-      key: const Key('addressField'),
-      controller: addressController,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.location_on),
-        hintText: "Address",
-      ),
-    );
-
     final contactNo = TextField(
       key: const Key('nameField'),
       controller: contactNoController,
@@ -62,6 +53,29 @@ class _SignupPageState extends State<SignupPage> {
         hintText: "Contact No",
       ),
     );
+
+    final address = ListView.builder(
+      shrinkWrap: true,
+      itemCount: _addressControllers.length,
+      itemBuilder: (context, index) {
+        return TextField(
+          controller: _addressControllers[index],
+          decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.location_on),
+          hintText: "Address",
+        )
+      );}
+    );
+
+    final addAddressButton = ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _addressControllers.add(TextEditingController());
+        });
+      },
+      child: const Text('Add Address'),
+    );
+
 
     final signUpButton = Padding(
       key: const Key('signUpButton'),
@@ -105,8 +119,9 @@ class _SignupPageState extends State<SignupPage> {
             name,
             username,
             password,
-            address,
             contactNo,
+            address,
+            addAddressButton,
             signUpButton,
             backButton
           ],
