@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../screens/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -49,6 +49,25 @@ class _HomePageState extends State<LoginPage> {
       ),
     );
 
+    final signUpButton = Padding(
+      key: const Key('signUpButton'),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+        ),
+        onPressed: () async {
+          Navigator.of(context).push(
+            
+            MaterialPageRoute(
+              builder: (context) => const SignupPage(),
+            ),
+          );
+        },
+        child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -63,7 +82,8 @@ class _HomePageState extends State<LoginPage> {
             ),
             username,
             password,
-            loginButton
+            loginButton,
+            signUpButton
           ],
         ),
       ),
