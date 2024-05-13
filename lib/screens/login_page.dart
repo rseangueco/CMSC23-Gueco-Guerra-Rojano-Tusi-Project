@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LoginPage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(left: 40.0, right: 40.0),
           children: const <Widget>[
             Text(
-              "HOME",
+              "Login",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25),
             ),

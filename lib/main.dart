@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_page.dart';
+import 'screens/login_page.dart';
 
 void main() async {
   runApp(const RootWidget());
@@ -17,7 +17,7 @@ class RootWidget extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => const LoginPage(),
       },
     );
   }
