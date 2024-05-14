@@ -8,10 +8,12 @@ void main() async {
 class RootWidget extends StatelessWidget {
   const RootWidget({super.key});
 
+  // Root widget for the project
+  // Initial route leads to login screen
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Root',
+      title: 'Elbi Donation System',
       initialRoute: '/',
       theme: ThemeData(
         primarySwatch: Colors.blue,

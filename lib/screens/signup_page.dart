@@ -16,8 +16,8 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
-  List<TextEditingController> _addressControllers = [TextEditingController()];
-  List<TextEditingController> _proofControllers = [TextEditingController()];
+  final List<TextEditingController> _addressControllers = [TextEditingController()];
+  final List<TextEditingController> _proofControllers = [TextEditingController()];
   
   @override
   Widget build(BuildContext context) {
@@ -83,6 +83,8 @@ class _SignupPageState extends State<SignupPage> {
         hintText: "Contact No",
       ),
     );
+
+    // Address and proof of autheticity fields allow for multiple user inputs using listbuilder
 
     final address = ListView.builder(
       shrinkWrap: true,

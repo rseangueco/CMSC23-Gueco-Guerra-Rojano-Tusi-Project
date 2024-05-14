@@ -12,9 +12,10 @@ class _HomePageState extends State<LoginPage> {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context){
+
+    // Text fields for username and password
 
     final username = TextField(
       key: const Key('usernameField'),
@@ -48,6 +49,8 @@ class _HomePageState extends State<LoginPage> {
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
+
+    // Sign up button leads to sign up page
 
     final signUpButton = Padding(
       key: const Key('signUpButton'),
