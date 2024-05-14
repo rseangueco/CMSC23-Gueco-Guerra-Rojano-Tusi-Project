@@ -1,3 +1,4 @@
+import 'package:cmsc23_project/screens/organization_page.dart';
 import 'package:flutter/material.dart';
 import '../screens/signup_page.dart';
 
@@ -43,7 +44,14 @@ class _HomePageState extends State<LoginPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
-          
+          if (usernameController.text == "org" && passwordController.text == "org"){
+          Navigator.of(context).push(
+            
+            MaterialPageRoute(
+              builder: (context) => const OrganizationPage(),
+            ),
+          );
+          }
         },
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
