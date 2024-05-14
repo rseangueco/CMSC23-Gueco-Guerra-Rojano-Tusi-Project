@@ -8,21 +8,51 @@ class SignupPage extends StatefulWidget{
 }
 
 class _SignupPageState extends State<SignupPage> {
+  List<String> types = <String>['Donor', 'Organization'];
+  late String signUpType = types.first;
+
   TextEditingController nameController = TextEditingController();
+  TextEditingController orgNameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
   List<TextEditingController> _addressControllers = [TextEditingController()];
+  List<TextEditingController> _proofControllers = [TextEditingController()];
   
   @override
   Widget build(BuildContext context) {
     
+    final signUpTypeSelect = DropdownMenu<String>(
+      initialSelection: signUpType,
+      label: const Text('Sign up as:'),
+      dropdownMenuEntries: types.map<DropdownMenuEntry<String>>((String value){
+        return DropdownMenuEntry<String>(
+          value: value,
+          label: value
+        );
+      }).toList(), 
+      onSelected: (String? value) {
+        setState(() {
+          signUpType = value!;
+        });
+      }
+    );
+
     final name = TextField(
       key: const Key('nameField'),
       controller: nameController,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.accessibility),
         hintText: "Name",
+      ),
+    );
+
+    final orgName = TextField(
+      key: const Key('orgNameField'),
+      controller: orgNameController,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.group),
+        hintText: "Organization Name",
       ),
     );
 
@@ -76,6 +106,27 @@ class _SignupPageState extends State<SignupPage> {
       child: const Text('Add Address'),
     );
 
+    final proof = ListView.builder(
+      shrinkWrap: true,
+      itemCount: _proofControllers.length,
+      itemBuilder: (context, index) {
+        return TextField(
+          controller: _proofControllers[index],
+          decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.note),
+          hintText: "Proof of Legitimacy",
+        )
+      );}
+    );
+
+    final addProofButton = ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _proofControllers.add(TextEditingController());
+        });
+      },
+      child: const Text('Add Proof'),
+    );
 
     final signUpButton = Padding(
       key: const Key('signUpButton'),
@@ -116,12 +167,16 @@ class _SignupPageState extends State<SignupPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25),
             ),
+            signUpTypeSelect,
             name,
+            (signUpType == 'Organization') ?  orgName : Container(),
             username,
             password,
             contactNo,
             address,
             addAddressButton,
+            (signUpType == 'Organization') ? proof : Container(),
+            (signUpType == 'Organization') ? addProofButton : Container(),
             signUpButton,
             backButton
           ],
