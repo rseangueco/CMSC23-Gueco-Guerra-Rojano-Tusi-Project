@@ -35,8 +35,9 @@ class FirebaseAuthAPI {
 
       await db.collection('userdetails').add(userDetails);
       await db.collection("userdetails").doc(userId).set({
-        'firstName': userDetails['firstName'],
-        'lastName': userDetails['lastName'],
+      'username': userDetails['username'],
+      'contactNo': userDetails['contactNo'],
+      'address': userDetails['address']
       });
 
     } on FirebaseAuthException catch (e) {

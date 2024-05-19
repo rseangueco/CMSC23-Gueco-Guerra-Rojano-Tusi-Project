@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'screens/login_page.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import '../providers/auth_provider.dart';
+import '../screens/login_page.dart';
 import '../firebase_options.dart';
 
 void main() async {
@@ -9,7 +11,13 @@ void main() async {
     options:  DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const RootWidget());
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: ((context) => AuthProvider()))
+      ],
+      child: RootWidget()
+      )
+  );
 }
 
 class RootWidget extends StatelessWidget {

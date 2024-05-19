@@ -1,38 +1,37 @@
 import 'dart:convert';
 
-class User {
-  String name;
+class UserDetails {
   String username;
+  String contactNo;
+  List<String> address;
+
 
   
-  User({
-    required this.name,
-    required this.username
+  UserDetails({
+    required this.username,
+    required this.contactNo,
+    required this.address
   });
   
 
-  /*
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
-      firstName: json['firstName'],
-      lastName: json['lastName']
+      username: json['username'],
+      contactNo: json['contactNo'],
+      address: json['address']
     );
   }
-  */
 
-  /*
   static List<UserDetails> fromJsonArray(String jsonData) {
     final Iterable<dynamic> data = jsonDecode(jsonData);
     return data.map<UserDetails>((dynamic d) => UserDetails.fromJson(d)).toList();
   }
-  */
 
-  /*
   Map<String, dynamic> toJson(UserDetails userDetails) {
     return {
-      'firstName': userDetails.firstName,
-      'lastName': userDetails.lastName
+      'username': userDetails.username,
+      'contactNo': userDetails.contactNo,
+      'address': userDetails.address
     };
   }
-  */
 }
