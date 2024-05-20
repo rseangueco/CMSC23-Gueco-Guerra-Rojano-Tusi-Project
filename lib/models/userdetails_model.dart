@@ -5,14 +5,17 @@ class UserDetails {
   String name;
   String contactNo;
   List<String> address;
-
+  String type;
+  String? organizationId; // foreign key for organization type users
 
   
   UserDetails({
     required this.username,
     required this.name,
     required this.contactNo,
-    required this.address
+    required this.address,
+    required this.type,
+    this.organizationId
   });
   
 
@@ -21,7 +24,9 @@ class UserDetails {
       username: json['username'],
       name: json['name'],
       contactNo: json['contactNo'],
-      address: json['address']
+      address: json['address'],
+      type: json['type'],
+      organizationId: json['organizationId']
     );
   }
 

@@ -11,6 +11,7 @@ class SignupPage extends StatefulWidget{
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final _signupFormKey = GlobalKey<FormState>();
   List<String> types = <String>['Donor', 'Organization'];
   late String signUpType = types.first;
 
@@ -41,34 +42,55 @@ class _SignupPageState extends State<SignupPage> {
       }
     );
 
-    final name = TextField(
+    final name = TextFormField(
       key: const Key('nameField'),
       controller: nameController,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.accessibility),
         hintText: "Name",
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "This field is required";
+        } else {
+          return null;
+        }
+      }
     );
 
-    final orgName = TextField(
+    final orgName = TextFormField(
       key: const Key('orgNameField'),
       controller: orgNameController,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.group),
         hintText: "Organization Name",
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "This field is required";
+        } else {
+          return null;
+        }
+      }
     );
 
-    final username = TextField(
+    final username = TextFormField(
       key: const Key('usernameField'),
       controller: usernameController,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.account_circle),
         hintText: "Username",
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "This field is required";
+        } else {
+          return null;
+        }
+      }
     );
 
-    final password = TextField(
+    final password = TextFormField(
       key: const Key('passwordField'),
       controller: passwordController,
       obscureText: true,
@@ -76,15 +98,29 @@ class _SignupPageState extends State<SignupPage> {
         prefixIcon: Icon(Icons.key),
         hintText: "Password",
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "This field is required";
+        } else {
+          return null;
+        }
+      }
     );
 
-    final contactNo = TextField(
-      key: const Key('nameField'),
+    final contactNo = TextFormField(
+      key: const Key('contactNoField'),
       controller: contactNoController,
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.contact_phone),
         hintText: "Contact No",
       ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "This field is required";
+        } else {
+          return null;
+        }
+      }
     );
 
     // Address and proof of autheticity fields allow for multiple user inputs using listbuilder
@@ -93,12 +129,19 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _addressControllers.length,
       itemBuilder: (context, index) {
-        return TextField(
+        return TextFormField(
           controller: _addressControllers[index],
           decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.location_on),
-          hintText: "Address",
-        )
+            prefixIcon: Icon(Icons.location_on),
+            hintText: "Address",
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "This field is required";
+            } else {
+              return null;
+            }
+          }
       );}
     );
 
@@ -115,12 +158,19 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _proofControllers.length,
       itemBuilder: (context, index) {
-        return TextField(
+        return TextFormField(
           controller: _proofControllers[index],
           decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.note),
-          hintText: "Proof of Legitimacy",
-        )
+            prefixIcon: Icon(Icons.note),
+            hintText: "Proof of Legitimacy",
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "This field is required";
+            } else {
+              return null;
+            }
+          }
       );}
     );
 
@@ -141,12 +191,15 @@ class _SignupPageState extends State<SignupPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
+          _signupFormKey.currentState!.validate();
+
           UserDetails userDetails = UserDetails(
             username: usernameController.text,
             name: nameController.text,
             contactNo: contactNoController.text, 
-            address: _addressControllers.map((controller) => controller.text).toList()
-            );
+            address: _addressControllers.map((controller) => controller.text).toList(),
+            type: signUpType,
+          );
           final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
           
           String? signupResult = await context
@@ -186,18 +239,21 @@ class _SignupPageState extends State<SignupPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25),
             ),
-            signUpTypeSelect,
-            name,
-            (signUpType == 'Organization') ?  orgName : Container(),
-            username,
-            password,
-            contactNo,
-            address,
-            addAddressButton,
-            (signUpType == 'Organization') ? proof : Container(),
-            (signUpType == 'Organization') ? addProofButton : Container(),
-            signUpButton,
-            backButton
+
+            Form(key:_signupFormKey, child: Column(children:[
+              signUpTypeSelect,
+              name,
+              (signUpType == 'Organization') ?  orgName : Container(),
+              username,
+              password,
+              contactNo,
+              address,
+              addAddressButton,
+              (signUpType == 'Organization') ? proof : Container(),
+              (signUpType == 'Organization') ? addProofButton : Container(),
+              signUpButton,
+              backButton
+            ]))
           ],
         ),
       ),
