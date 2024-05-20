@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class UserDetails {
   String username;
+  String name;
   String contactNo;
   List<String> address;
 
@@ -9,6 +10,7 @@ class UserDetails {
   
   UserDetails({
     required this.username,
+    required this.name,
     required this.contactNo,
     required this.address
   });
@@ -17,6 +19,7 @@ class UserDetails {
   factory UserDetails.fromJson(Map<String, dynamic> json) {
     return UserDetails(
       username: json['username'],
+      name: json['name'],
       contactNo: json['contactNo'],
       address: json['address']
     );
@@ -30,6 +33,7 @@ class UserDetails {
   Map<String, dynamic> toJson(UserDetails userDetails) {
     return {
       'username': userDetails.username,
+      'name': userDetails.name,
       'contactNo': userDetails.contactNo,
       'address': userDetails.address
     };

@@ -29,20 +29,18 @@ class FirebaseAuthAPI {
     try {
       credential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      print(credential);
 
       String? userId = credential.user?.uid; // store uid generated upon sign up
 
-      await db.collection('userdetails').add(userDetails);
       await db.collection("userdetails").doc(userId).set({
-      'username': userDetails['username'],
-      'contactNo': userDetails['contactNo'],
-      'address': userDetails['address']
+        'username': userDetails['username'],
+        'name': userDetails['name'],
+        'contactNo': userDetails['contactNo'],
+        'address': userDetails['address']
       });
 
     } on FirebaseAuthException catch (e) {
         return e.code;
-
     }
     return null;
   }

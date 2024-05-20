@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/userdetails_model.dart';
+import '../providers/auth_provider.dart';
 
 class SignupPage extends StatefulWidget{
   const SignupPage({super.key});
@@ -138,7 +141,19 @@ class _SignupPageState extends State<SignupPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
+          UserDetails userDetails = UserDetails(
+            username: usernameController.text,
+            name: nameController.text,
+            contactNo: contactNoController.text, 
+            address: _addressControllers.map((controller) => controller.text).toList()
+            );
+          final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
           
+          await context
+            .read<AuthProvider>()
+            .signUp(usernameAsEmail, passwordController.text, userDetails);
+          
+          if (context.mounted) Navigator.pop(context);
         },
         child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
       ),
