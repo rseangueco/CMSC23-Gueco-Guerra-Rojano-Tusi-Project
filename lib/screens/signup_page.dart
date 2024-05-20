@@ -149,11 +149,13 @@ class _SignupPageState extends State<SignupPage> {
             );
           final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
           
-          await context
+          String? signupResult = await context
             .read<AuthProvider>()
             .signUp(usernameAsEmail, passwordController.text, userDetails);
           
-          if (context.mounted) Navigator.pop(context);
+          if(signupResult == null){
+            if (context.mounted) Navigator.pop(context);
+          }
         },
         child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
       ),

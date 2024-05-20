@@ -9,18 +9,13 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
-  Future<void> signIn(String email, String password) async {
-    UserCredential credential;
+  Future<String?> signIn(String email, String password) async {
     try {
-      final credential = await auth.signInWithEmailAndPassword(
+      await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      print(credential);
+        return null;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      return e.code;
     }
   }
 
