@@ -237,7 +237,7 @@ class _SignupPageState extends State<SignupPage> {
             }
             
             if(signupResult == null && signUpType == 'Organization'){
-              final orgId = context.read<OrganizationProvider>().addOrganization(orgNameController.text);
+              if (context.mounted) final orgId = context.read<OrganizationProvider>().addOrganization(orgNameController.text);
             }
 
             if(_signupFormKey.currentState!.validate()) {
