@@ -14,6 +14,8 @@ class _SignupPageState extends State<SignupPage> {
   final _signupFormKey = GlobalKey<FormState>();
   List<String> types = <String>['Donor', 'Organization'];
   late String signUpType = types.first;
+  String? _usernameErrorMessage;
+  String? _passwordErrorMessage;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController orgNameController = TextEditingController();
@@ -23,6 +25,12 @@ class _SignupPageState extends State<SignupPage> {
   final List<TextEditingController> _addressControllers = [TextEditingController()];
   final List<TextEditingController> _proofControllers = [TextEditingController()];
   
+  bool isValidContactNo(String contactNo) {
+    RegExp validContactNo = RegExp("[0-9]{10}");
+
+    return validContactNo.hasMatch(contactNo);
+  }
+
   @override
   Widget build(BuildContext context) {
     
@@ -83,10 +91,14 @@ class _SignupPageState extends State<SignupPage> {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "This field is required";
+          _usernameErrorMessage = "This field is required";
+        } else if (_usernameErrorMessage == "Username is already in use.") {
+          return _usernameErrorMessage;
         } else {
-          return null;
+          _usernameErrorMessage = null;
         }
+
+        return _usernameErrorMessage;
       }
     );
 
@@ -100,10 +112,14 @@ class _SignupPageState extends State<SignupPage> {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "This field is required";
+          _passwordErrorMessage = "This field is required";
+        } else if (_passwordErrorMessage == "Password must be at least 6 characters.") {
+          return _passwordErrorMessage;
         } else {
-          return null;
+          _passwordErrorMessage = null;
         }
+
+        return _passwordErrorMessage;
       }
     );
 
@@ -117,6 +133,8 @@ class _SignupPageState extends State<SignupPage> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "This field is required";
+        } else if(!isValidContactNo(value)){
+          return "Invalid form. Please enter an 11 digit contact number.";
         } else {
           return null;
         }
@@ -191,23 +209,38 @@ class _SignupPageState extends State<SignupPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
+          _usernameErrorMessage = null;
+          _passwordErrorMessage = null;
+
           _signupFormKey.currentState!.validate();
 
-          UserDetails userDetails = UserDetails(
-            username: usernameController.text,
-            name: nameController.text,
-            contactNo: contactNoController.text, 
-            address: _addressControllers.map((controller) => controller.text).toList(),
-            type: signUpType,
-          );
-          final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
-          
-          String? signupResult = await context
-            .read<AuthProvider>()
-            .signUp(usernameAsEmail, passwordController.text, userDetails);
-          
-          if(signupResult == null){
-            if (context.mounted) Navigator.pop(context);
+          if(_usernameErrorMessage == null && _passwordErrorMessage == null) {
+            UserDetails userDetails = UserDetails(
+              username: usernameController.text,
+              name: nameController.text,
+              contactNo: contactNoController.text, 
+              address: _addressControllers.map((controller) => controller.text).toList(),
+              type: signUpType,
+            );
+            final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
+            
+            String? signupResult = await context
+              .read<AuthProvider>()
+              .signUp(usernameAsEmail, passwordController.text, userDetails);
+
+            print(signupResult);
+
+            
+            if (signupResult == 'weak-password') {
+              _passwordErrorMessage = 'Password must be at least 6 characters.';
+            }
+            else if (signupResult == 'email-already-in-use') {
+              _usernameErrorMessage = 'Username is already in use.';
+            }
+
+            if(_signupFormKey.currentState!.validate()) {
+              if (context.mounted) Navigator.pop(context);
+            }
           }
         },
         child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
