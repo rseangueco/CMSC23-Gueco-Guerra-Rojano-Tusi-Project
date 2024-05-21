@@ -1,5 +1,7 @@
 import 'package:cmsc23_project/screens/organization_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../screens/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,9 +15,10 @@ class _HomePageState extends State<LoginPage> {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context){
+
+    // Text fields for username and password
 
     final username = TextField(
       key: const Key('usernameField'),
@@ -44,18 +47,16 @@ class _HomePageState extends State<LoginPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
-          if (usernameController.text == "org" && passwordController.text == "org"){
-          Navigator.of(context).push(
-            
-            MaterialPageRoute(
-              builder: (context) => const OrganizationPage(),
-            ),
-          );
-          }
+          final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
+
+          await context.read<AuthProvider>().signIn(
+            usernameAsEmail, passwordController.text);
         },
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
     );
+
+    // Sign up button leads to sign up page
 
     final signUpButton = Padding(
       key: const Key('signUpButton'),
