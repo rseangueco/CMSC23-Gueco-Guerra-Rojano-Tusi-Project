@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../screens/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -44,7 +46,11 @@ class _HomePageState extends State<LoginPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
-          
+          final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
+
+          await context.read<AuthProvider>().signIn(
+            usernameAsEmail, passwordController.text);
+
         },
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
