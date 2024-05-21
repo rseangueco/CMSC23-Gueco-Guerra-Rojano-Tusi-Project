@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class OrganizationCard extends StatefulWidget {
-  final String organizationName, aboutOrganization;
+  final String organizatinId,
+      organizationName,
+      aboutOrganization,
+      donationStatus;
   const OrganizationCard(
-      {required this.organizationName,
+      {required this.organizatinId,
+      required this.organizationName,
       required this.aboutOrganization,
+      required this.donationStatus,
       super.key});
 
   @override
@@ -23,11 +28,11 @@ class _OrganizationCardState extends State<OrganizationCard> {
         color: Colors.blue,
         child: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, "/donate-page");
+              Navigator.pushNamed(context, '/donate-page');
             },
-            splashColor: Colors.white,
+            splashColor: Colors.black,
             child: Container(
-                height: 200,
+                height: 300,
                 width: 200,
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -35,16 +40,25 @@ class _OrganizationCardState extends State<OrganizationCard> {
                     children: [
                       Text(
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 24),
                           widget.organizationName),
+                      const SizedBox(height: 20),
                       Text(
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontStyle: FontStyle.italic,
                               fontSize: 18),
-                          widget.aboutOrganization)
+                          widget.aboutOrganization),
+                      const SizedBox(height: 20),
+                      Text(
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 18),
+                          widget.donationStatus)
                     ]))));
   }
 }

@@ -1,4 +1,4 @@
-import 'package:cmsc23_project/screens/donor_homepage_components/organization_card.dart';
+import 'package:cmsc23_project/screens/donor_page_components/organization_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,7 +21,9 @@ class _DonorHomePageState extends State<DonorHomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Donor'),
+          backgroundColor: Colors.blue,
+          title: const Center(child: Text('Organizations')),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         body: StreamBuilder(
           stream: organizationStream,
@@ -46,9 +48,15 @@ class _DonorHomePageState extends State<DonorHomePage> {
                 Organization organization = Organization.fromJson(
                     snapshot.data?.docs[index].data() as Map<String, dynamic>);
                 organization.id = snapshot.data?.docs[index].id;
-                return OrganizationCard(
-                    organizationName: organization.name,
-                    aboutOrganization: 'About Organization');
+                return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: OrganizationCard(
+                        organizatinId: organization.id!,
+                        organizationName: organization.name,
+                        aboutOrganization: organization.aboutOrganization,
+                        donationStatus: organization.donationStatus
+                            ? 'ACCEPTING DONATIONS'
+                            : 'CURRENTLY NOT ACCEPTING DONATIONS'));
               }),
             );
           },

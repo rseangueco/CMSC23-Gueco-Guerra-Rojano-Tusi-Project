@@ -1,3 +1,5 @@
+import 'package:cmsc23_project/firebase_options.dart';
+import 'package:cmsc23_project/screens/donate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,8 +9,8 @@ import 'package:cmsc23_project/providers/organization_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      //options: DefaultFirebaseOptions.currentPlatform,
-      );
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     MultiProvider(
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/donors-page',
       routes: {
         '/donors-page': (context) => const DonorHomePage(),
+        '/donate-page': (context) => const DonatePage(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
