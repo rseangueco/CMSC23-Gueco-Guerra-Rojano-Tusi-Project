@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/userdetails_model.dart';
 import '../providers/auth_provider.dart';
+import '../providers/organization_provider.dart';
 
 class SignupPage extends StatefulWidget{
   const SignupPage({super.key});
@@ -227,15 +228,16 @@ class _SignupPageState extends State<SignupPage> {
             String? signupResult = await context
               .read<AuthProvider>()
               .signUp(usernameAsEmail, passwordController.text, userDetails);
-
-            print(signupResult);
-
             
             if (signupResult == 'weak-password') {
               _passwordErrorMessage = 'Password must be at least 6 characters.';
             }
             else if (signupResult == 'email-already-in-use') {
               _usernameErrorMessage = 'Username is already in use.';
+            }
+            
+            if(signupResult == null && signUpType == 'Organization'){
+              final orgId = context.read<OrganizationProvider>().addOrganization(orgNameController.text);
             }
 
             if(_signupFormKey.currentState!.validate()) {

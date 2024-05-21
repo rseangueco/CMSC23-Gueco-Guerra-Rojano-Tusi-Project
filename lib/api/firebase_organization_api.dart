@@ -14,9 +14,7 @@ class FirebaseOrganizationAPI {
         'status': 'Pending',
       });
 
-      await db.collection("organization").doc(docRef.id).update({'id': docRef.id});
-
-      return "Successfully added organization.";
+      return docRef.id;
     } on FirebaseException catch (e) {
       return e.code;
     }

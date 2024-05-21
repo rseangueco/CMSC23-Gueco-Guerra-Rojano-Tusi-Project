@@ -31,7 +31,8 @@ class FirebaseAuthAPI {
         'username': userDetails['username'],
         'name': userDetails['name'],
         'contactNo': userDetails['contactNo'],
-        'address': userDetails['address']
+        'address': userDetails['address'],
+        'type': userDetails['type']
       });
 
     } on FirebaseAuthException catch (e) {
