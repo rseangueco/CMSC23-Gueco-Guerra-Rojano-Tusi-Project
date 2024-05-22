@@ -17,9 +17,10 @@ class OrganizationDrawer extends StatelessWidget {
             ),
             child: Text('Elbi Donation System'),
           ),
-          ListTile(
+          ListTile(  
             title: const Text('Donations List'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => OrganizationPage(),
@@ -30,6 +31,7 @@ class OrganizationDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Donation Drives'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => DonationDrivesPage(),
