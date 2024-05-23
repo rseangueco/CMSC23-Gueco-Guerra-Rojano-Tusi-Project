@@ -1,4 +1,4 @@
-import 'package:cmsc23_project/screens/donor_page_components/organization_card.dart';
+import 'package:cmsc23_project/screens/components/organization_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
