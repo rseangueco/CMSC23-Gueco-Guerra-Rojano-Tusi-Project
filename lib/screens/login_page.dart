@@ -1,3 +1,4 @@
+import 'package:cmsc23_project/screens/organization_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -50,7 +51,6 @@ class _HomePageState extends State<LoginPage> {
 
           await context.read<AuthProvider>().signIn(
             usernameAsEmail, passwordController.text);
-
         },
         child: const Text('Log In', style: TextStyle(color: Colors.white)),
       ),
