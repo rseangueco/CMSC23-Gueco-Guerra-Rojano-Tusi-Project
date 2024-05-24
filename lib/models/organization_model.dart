@@ -5,12 +5,14 @@ class Organization {
   String? status;
   String? about;
   List<String>? donations;
+  String userID; //foreign key for user
 
   Organization({
     required this.name,
     this.status,
     this.about,
-    this.donations
+    this.donations,
+    required this.userID,
   });
 
   // Factory constructor to instantiate object from json format
@@ -19,7 +21,8 @@ class Organization {
       name: json['name'],
       status: json['status'],
       about: json['about'],
-      donations: json['donations']
+      donations: json['donations'],
+      userID: json['userID']
     );
   }
 
@@ -35,7 +38,8 @@ class Organization {
       'name': organization.name,
       'status': organization.status,
       'about': organization.about,
-      'donations': organization.donations
+      'donations': organization.donations,
+      'userID': organization.userID
     };
   }
 }

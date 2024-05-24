@@ -225,19 +225,23 @@ class _SignupPageState extends State<SignupPage> {
             );
             final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
             
-            String? signupResult = await context
+            var signupResult = await context
               .read<AuthProvider>()
               .signUp(usernameAsEmail, passwordController.text, userDetails);
             
-            if (signupResult == 'weak-password') {
+            if (signupResult['error'] == 'weak-password') {
               _passwordErrorMessage = 'Password must be at least 6 characters.';
             }
-            else if (signupResult == 'email-already-in-use') {
+            else if (signupResult['error'] == 'email-already-in-use') {
               _usernameErrorMessage = 'Username is already in use.';
             }
             
-            if(signupResult == null && signUpType == 'Organization'){
-              if (context.mounted) final orgId = context.read<OrganizationProvider>().addOrganization(orgNameController.text);
+            if((signupResult['error'] == null || signupResult['error'] == '') && signUpType == 'Organization'){
+              String userID = signupResult['userId'];
+              if (context.mounted) {
+                final orgId = await context.read<OrganizationProvider>().addOrganization(orgNameController.text, userID);
+                if (context.mounted) await context.read<AuthProvider>().addOrgId(userID, orgId);
+              }
             }
 
             if(_signupFormKey.currentState!.validate()) {

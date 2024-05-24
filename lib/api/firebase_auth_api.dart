@@ -19,13 +19,25 @@ class FirebaseAuthAPI {
     }
   }
 
-  Future<String?> signUp(String email, String password, Map<String, dynamic> userDetails) async {
+  Future<Map<String, dynamic>> signUp(String email, String password, Map<String, dynamic> userDetails) async {
     UserCredential credential;
+    var result = {
+      'error': '',
+      'userId': ''
+    };
+
     try {
       credential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
       String? userId = credential.user?.uid; // store uid generated upon sign up
+
+      if (userId == null) {
+        result['error'] = 'User ID is null';
+        return result;
+      }
+
+      result['userId'] = userId;
 
       await db.collection("userdetails").doc(userId).set({
         'username': userDetails['username'],
@@ -36,9 +48,21 @@ class FirebaseAuthAPI {
       });
 
     } on FirebaseAuthException catch (e) {
-        return e.code;
+        result['error'] = e.code;
     }
-    return null;
+
+    return result;
+  }
+
+  Future<void> addOrgId(String userId, String orgId) async {
+    try{
+      await db.collection("userdetails").doc(userId).update({
+        'organizationId': orgId
+      });
+    }
+    on FirebaseException catch (e){
+      print(e);
+    }
   }
 
   Future<void> signOut() async {

@@ -1,3 +1,4 @@
+import 'package:cmsc23_project/providers/organization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,7 +14,8 @@ void main() async {
 
   runApp(
     MultiProvider(providers: [
-      ChangeNotifierProvider(create: ((context) => AuthProvider()))
+      ChangeNotifierProvider(create: ((context) => AuthProvider())),
+      ChangeNotifierProvider(create: ((context) => OrganizationProvider()))
       ],
       child: RootWidget()
       )

@@ -7,11 +7,12 @@ class FirebaseOrganizationAPI {
     return db.collection("organizations").snapshots();
   }
 
-  Future<String> addOrganization(String name) async {
+  Future<String> addOrganization(String name, String userId) async {
     try {
       final docRef = await db.collection("organizations").add({
         'name': name,
         'status': 'Pending',
+        'userId': userId
       });
 
       return docRef.id;
