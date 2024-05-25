@@ -59,13 +59,18 @@ class _DateTimePickerState extends State<DateTimePicker> {
       }),
       Visibility(
           visible:
-              (selectedDate == null || selectedTime == null ? false : true),
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: (selectedDate == null || selectedTime == null
+              (selectedDate == null ? false : true),
+          child: (selectedDate == null
                   ? const Text("")
                   : Text(
-                      "Chosen date and time: ${DateFormat.yMMMMd('en_US').format(selectedDate!)} at ${selectedTime!.format(context)}")))),
+                      "Chosen date: ${DateFormat.yMMMMd('en_US').format(selectedDate!)}"))),
+      Visibility(
+          visible:
+              (selectedTime == null ? false : true),
+          child: (selectedTime == null
+                  ? const Text("")
+                  : Text(
+                      "Chosen time: ${selectedTime!.format(context)}"))),
     ]);
   }
 
@@ -73,7 +78,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     final DateTime? picked = await showDatePicker(
         context: context,
         firstDate: DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day),
+            DateTime.now().year, DateTime.now().month, DateTime.now().day+1),
         lastDate: DateTime(2100));
     if (picked != null && picked != DateTime.now()) {
       setState(() {
