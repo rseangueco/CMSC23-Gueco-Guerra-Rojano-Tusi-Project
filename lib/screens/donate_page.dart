@@ -1,4 +1,5 @@
 import 'package:cmsc23_project/screens/components/address_form.dart';
+import 'package:cmsc23_project/screens/components/contact_number_field.dart';
 import 'package:cmsc23_project/screens/components/date_time_picker.dart';
 import 'package:cmsc23_project/screens/components/donation_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ class DonatePage extends StatefulWidget {
 }
 
 class _DonatePageState extends State<DonatePage> {
+
+  // form data
   final List<String> formItemCategories = [];
   int formWeight = 0;
   // final String formPhoto = "";
@@ -22,7 +25,7 @@ class _DonatePageState extends State<DonatePage> {
   bool formIsForPickup = true;
   int isForPickup = 1;
   final List<String> formAddress = [];
-  final String formContactNumber = "";
+  String formContactNumber = "";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -51,7 +54,9 @@ class _DonatePageState extends State<DonatePage> {
                   visible: (isForPickup == 1 ? true : false),
                   child: Column(children: [
                     AddressForm(addressList: formAddress),
-                    // contactNumber
+                    ContactNumberField(
+                      updateContactNo: _updateContactNo
+                    )
                   ])),
               confirmButton,
             ],
@@ -112,23 +117,32 @@ class _DonatePageState extends State<DonatePage> {
         },
       );
 
+  void _updateContactNo(String contact) {
+    setState(() {
+      formContactNumber = contact;
+    });
+  }
+
   Widget get confirmButton => ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             _formKey.currentState?.save();
-            // check values
 
+            // checkers
             // save donor username
             print(formItemCategories);
             print(formWeight);
             print(formDateTime['date']);
             print(formDateTime['time']);
             print(formAddress);
+            print(formContactNumber);
             // org donated to
             // donationDriveId = null
             // donationstatus initial
 
           }
+
+          // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm
         },
         child: const Text('Confirm Donation'),
       );

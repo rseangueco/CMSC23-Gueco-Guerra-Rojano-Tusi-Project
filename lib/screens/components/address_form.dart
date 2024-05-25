@@ -45,10 +45,18 @@ class _AddressFormState extends State<AddressForm> {
             child: TextFormField(
               maxLength: 300,
               controller: _addressControllers[index],
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.location_on),
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.location_on),
                   hintText: "Address for pickup",
-                  counterText: ""),
+                  counterText: "",
+                  suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _addressControllers.removeAt(index);
+                    });
+                  },
+                  icon: const Icon(Icons.clear)
+                )),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "This field is required";
@@ -87,9 +95,6 @@ class _AddressFormState extends State<AddressForm> {
             for (var c in _addressControllers) {
               currentAddresses.add(c.text);
             }
-            print("marker");
-            print(addressModalReceiver);
-            print(currentAddresses);
 
             // remove addresses in receiever if already in fields
             var set1 = Set.from(addressModalReceiver);
