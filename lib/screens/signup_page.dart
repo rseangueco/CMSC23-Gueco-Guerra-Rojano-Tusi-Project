@@ -151,20 +151,35 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _addressControllers.length,
       itemBuilder: (context, index) {
-        return TextFormField(
-          controller: _addressControllers[index],
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.location_on),
-            hintText: "Address",
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "This field is required";
-            } else {
-              return null;
-            }
-          }
-      );}
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                  controller: _addressControllers[index],
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.location_on),
+                    hintText: "Address",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "This field is required";
+                    } else {
+                      return null;
+                    } }),
+                ),
+                if (index > 0)
+                  IconButton(
+                    icon: const Icon(Icons.remove_circle),
+                    onPressed: () {
+                      setState(() {
+                        _addressControllers.removeAt(index);
+                      });
+                    },
+                  ),
+      ],)));}
     );
 
     final addAddressButton = ElevatedButton(
@@ -180,20 +195,37 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _proofControllers.length,
       itemBuilder: (context, index) {
-        return TextFormField(
-          controller: _proofControllers[index],
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.note),
-            hintText: "Proof of Legitimacy",
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "This field is required";
-            } else {
-              return null;
-            }
-          }
-      );}
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: 
+                    TextFormField(
+                    controller: _proofControllers[index],
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.note),
+                      hintText: "Proof of Legitimacy",
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "This field is required";
+                      } else {
+                        return null;
+                      }
+                    }
+                  )),
+                  if (index > 0)
+                  IconButton(
+                    icon: const Icon(Icons.remove_circle),
+                    onPressed: () {
+                      setState(() {
+                        _proofControllers.removeAt(index);
+                      });
+                    },
+                  ),
+      ])));}
     );
 
     final addProofButton = ElevatedButton(
