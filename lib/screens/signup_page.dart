@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/userdetails_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/organization_provider.dart';
+import 'dart:async';
 
 class SignupPage extends StatefulWidget{
   const SignupPage({super.key});
@@ -25,6 +26,8 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController contactNoController = TextEditingController();
   final List<TextEditingController> _addressControllers = [TextEditingController()];
   final List<TextEditingController> _proofControllers = [TextEditingController()];
+
+  final completer = Completer<String?>();
   
   bool isValidContactNo(String contactNo) {
     RegExp validContactNo = RegExp("[0-9]{10}");
@@ -239,8 +242,14 @@ class _SignupPageState extends State<SignupPage> {
             if((signupResult['error'] == null || signupResult['error'] == '') && signUpType == 'Organization'){
               String userID = signupResult['userId'];
               if (context.mounted) {
-                final orgId = await context.read<OrganizationProvider>().addOrganization(orgNameController.text, userID);
-                if (context.mounted) await context.read<AuthProvider>().addOrgId(userID, orgId);
+                String? orgId = '';
+
+                context.read<OrganizationProvider>().addOrganization(orgNameController.text, userID, (String? docId) {
+                  completer.complete(docId);
+                });
+                orgId = await completer.future;
+
+                if (context.mounted) await context.read<AuthProvider>().addOrgId(userID, orgId!);
               }
             }
 

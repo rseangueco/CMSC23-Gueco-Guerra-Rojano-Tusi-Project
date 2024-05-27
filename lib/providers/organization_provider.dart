@@ -18,10 +18,13 @@ class OrganizationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> addOrganization(String name, String userId) async {
-    final message = await firebaseService.addOrganization(name, userId);
-
-    notifyListeners();
-    return message;
+  void addOrganization(String name, String userId, Function(String) callback) async {
+    firebaseService.addOrganization(name, userId).then((message) {
+      callback(message);
+      notifyListeners();
+    }).catchError((error) {
+      callback(error);
+      notifyListeners();
+    });
   }
 }
