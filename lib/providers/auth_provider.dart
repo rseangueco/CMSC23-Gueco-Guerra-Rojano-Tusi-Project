@@ -8,15 +8,28 @@ class AuthProvider with ChangeNotifier {
 
   late Stream<User?> uStream;
   User? userObj;
+  UserDetails? userDetails;
 
   AuthProvider() {
     authService = FirebaseAuthAPI();
     fetchAuthentication();
+    
   }
 
   Stream<User?> get userStream => uStream;
+
   void fetchAuthentication() {
     uStream = authService.getUser();
+    uStream.listen((user) async {
+      userObj = user;
+      print('User: $user');
+      if (user != null) {
+        print('Fetching user details for: ${user.uid}');
+        userDetails = await fetchUserDetails(user.uid);
+      } else {
+        userDetails = null;
+      }
+    });
     notifyListeners();
   }
 
@@ -40,5 +53,9 @@ class AuthProvider with ChangeNotifier {
   Future<void> signOut() async {
     await authService.signOut();
     notifyListeners();
+  }
+
+  Future<UserDetails?> fetchUserDetails(String userId) async {
+    return await authService.fetchUserDetails(userId);
   }
 }

@@ -24,7 +24,7 @@ class UserDetails {
       username: json['username'],
       name: json['name'],
       contactNo: json['contactNo'],
-      address: json['address'],
+      address: List<String>.from(json['address']),
       type: json['type'],
       organizationId: json['organizationId']
     );

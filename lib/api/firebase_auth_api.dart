@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../models/userdetails_model.dart';
 
 class FirebaseAuthAPI {
   static final FirebaseAuth auth = FirebaseAuth.instance;
@@ -9,15 +10,16 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
+
   Future<String?> signIn(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-        return null;
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return null;
     } on FirebaseAuthException catch (e) {
       return e.code;
     }
   }
+
 
   Future<Map<String, dynamic>> signUp(String email, String password, Map<String, dynamic> userDetails) async {
     UserCredential credential;
@@ -54,6 +56,7 @@ class FirebaseAuthAPI {
     return result;
   }
 
+
   Future<void> addOrgId(String userId, String orgId) async {
     try{
       await db.collection("userdetails").doc(userId).update({
@@ -65,7 +68,19 @@ class FirebaseAuthAPI {
     }
   }
 
+
   Future<void> signOut() async {
     await auth.signOut();
+  }
+
+
+  Future<UserDetails?> fetchUserDetails(String userId) async {
+    try {
+      DocumentSnapshot docRef = await db.collection('userdetails').doc(userId).get();
+      return UserDetails.fromJson(docRef.data() as Map<String, dynamic>);
+    } catch (e) {
+      print('Failed to fetch user details: $e');
+      return null;
+    }
   }
 }

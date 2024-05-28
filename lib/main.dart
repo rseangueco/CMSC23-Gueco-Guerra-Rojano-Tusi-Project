@@ -1,4 +1,6 @@
+import 'package:cmsc23_project/auth_route_guard.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,6 +39,11 @@ class RootWidget extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage()
+        /*'/signup': (context) => const AuthRouteGuard(
+            requiredRole: 'organization',
+            child: SignupPage(), 
+        )*/
       },
     );
   }
