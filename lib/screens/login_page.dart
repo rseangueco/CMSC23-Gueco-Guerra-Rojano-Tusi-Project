@@ -66,12 +66,7 @@ class _HomePageState extends State<LoginPage> {
           backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
         ),
         onPressed: () async {
-          Navigator.of(context).push(
-            
-            MaterialPageRoute(
-              builder: (context) => const SignupPage(),
-            ),
-          );
+          Navigator.pushNamed(context, '/signup');
         },
         child: const Text('Sign Up', style: TextStyle(color: Colors.white)),
       ),

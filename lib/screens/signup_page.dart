@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/userdetails_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/organization_provider.dart';
+import 'dart:async';
 
 class SignupPage extends StatefulWidget{
   const SignupPage({super.key});
@@ -25,6 +26,8 @@ class _SignupPageState extends State<SignupPage> {
   TextEditingController contactNoController = TextEditingController();
   final List<TextEditingController> _addressControllers = [TextEditingController()];
   final List<TextEditingController> _proofControllers = [TextEditingController()];
+
+  final completer = Completer<String?>();
   
   bool isValidContactNo(String contactNo) {
     RegExp validContactNo = RegExp("[0-9]{10}");
@@ -148,20 +151,35 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _addressControllers.length,
       itemBuilder: (context, index) {
-        return TextFormField(
-          controller: _addressControllers[index],
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.location_on),
-            hintText: "Address",
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "This field is required";
-            } else {
-              return null;
-            }
-          }
-      );}
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                  controller: _addressControllers[index],
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.location_on),
+                    hintText: "Address",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "This field is required";
+                    } else {
+                      return null;
+                    } }),
+                ),
+                if (index > 0)
+                  IconButton(
+                    icon: const Icon(Icons.remove_circle),
+                    onPressed: () {
+                      setState(() {
+                        _addressControllers.removeAt(index);
+                      });
+                    },
+                  ),
+      ],)));}
     );
 
     final addAddressButton = ElevatedButton(
@@ -177,20 +195,37 @@ class _SignupPageState extends State<SignupPage> {
       shrinkWrap: true,
       itemCount: _proofControllers.length,
       itemBuilder: (context, index) {
-        return TextFormField(
-          controller: _proofControllers[index],
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.note),
-            hintText: "Proof of Legitimacy",
-          ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "This field is required";
-            } else {
-              return null;
-            }
-          }
-      );}
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: 
+                    TextFormField(
+                    controller: _proofControllers[index],
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.note),
+                      hintText: "Proof of Legitimacy",
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "This field is required";
+                      } else {
+                        return null;
+                      }
+                    }
+                  )),
+                  if (index > 0)
+                  IconButton(
+                    icon: const Icon(Icons.remove_circle),
+                    onPressed: () {
+                      setState(() {
+                        _proofControllers.removeAt(index);
+                      });
+                    },
+                  ),
+      ])));}
     );
 
     final addProofButton = ElevatedButton(
@@ -225,19 +260,29 @@ class _SignupPageState extends State<SignupPage> {
             );
             final usernameAsEmail = '${usernameController.text}@donationsampledomain.com';
             
-            String? signupResult = await context
+            var signupResult = await context
               .read<AuthProvider>()
               .signUp(usernameAsEmail, passwordController.text, userDetails);
             
-            if (signupResult == 'weak-password') {
+            if (signupResult['error'] == 'weak-password') {
               _passwordErrorMessage = 'Password must be at least 6 characters.';
             }
-            else if (signupResult == 'email-already-in-use') {
+            else if (signupResult['error'] == 'email-already-in-use') {
               _usernameErrorMessage = 'Username is already in use.';
             }
             
-            if(signupResult == null && signUpType == 'Organization'){
-              if (context.mounted) final orgId = context.read<OrganizationProvider>().addOrganization(orgNameController.text);
+            if((signupResult['error'] == null || signupResult['error'] == '') && signUpType == 'Organization'){
+              String userID = signupResult['userId'];
+              if (context.mounted) {
+                String? orgId = '';
+
+                context.read<OrganizationProvider>().addOrganization(orgNameController.text, userID, (String? docId) {
+                  completer.complete(docId);
+                });
+                orgId = await completer.future;
+
+                if (context.mounted) await context.read<AuthProvider>().addOrgId(userID, orgId!);
+              }
             }
 
             if(_signupFormKey.currentState!.validate()) {
