@@ -1,3 +1,4 @@
+import '../models/organization_model.dart';
 import '../api/firebase_organization_api.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,10 +19,23 @@ class OrganizationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> addOrganization(String name) async {
-    final message = await firebaseService.addOrganization(name);
-
+  void addOrganization(String name) async {
+    final result = await firebaseService.addOrganization(name);
     notifyListeners();
-    return message;
+  }
+
+  void editOrganization(String id, Organization organization) async {
+    final result = await firebaseService.editOrganization(id, organization);
+    notifyListeners();
+  }
+
+  void deleteOrganization(String id) async {
+    final result = await firebaseService.deleteOrganization(id);
+    notifyListeners();
+  }
+
+  void updateApprovalStatus(String id, int status) async {
+    final result = await firebaseService.updateApprovalStatus(id, status);
+    notifyListeners();
   }
 }

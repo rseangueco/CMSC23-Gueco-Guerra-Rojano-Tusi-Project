@@ -1,26 +1,33 @@
 import 'dart:convert';
 
 class Organization {
+  String? id;
+  String userId;
   String name;
-  String? status;
   String? about;
-  List<String>? donations;
+  String donationStatus;
+  List<dynamic>? donations; // foreign keys to the donations
+  String approvalStatus;
 
-  Organization({
-    required this.name,
-    this.status,
-    this.about,
-    this.donations
-  });
+  Organization(
+      {this.id,
+      required this.userId,
+      required this.name,
+      this.about,
+      required this.donationStatus,
+      this.donations,
+      required this.approvalStatus});
 
   // Factory constructor to instantiate object from json format
   factory Organization.fromJson(Map<String, dynamic> json) {
     return Organization(
-      name: json['name'],
-      status: json['status'],
-      about: json['about'],
-      donations: json['donations']
-    );
+        id: json['id'],
+        userId: json['userId'],
+        name: json['name'],
+        about: json['about'],
+        donationStatus: json['donationStatus'],
+        approvalStatus: json['approvalStatus'],
+        donations: json['donations']);
   }
 
   static List<Organization> fromJsonArray(String jsonData) {
@@ -32,9 +39,11 @@ class Organization {
 
   Map<String, dynamic> toJson(Organization organization) {
     return {
+      'userId': organization.userId,
       'name': organization.name,
-      'status': organization.status,
       'about': organization.about,
+      'donationStatus': organization.donationStatus,
+      'approvalStatus': organization.approvalStatus,
       'donations': organization.donations
     };
   }
