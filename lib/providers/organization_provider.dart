@@ -32,10 +32,11 @@ class OrganizationProvider with ChangeNotifier {
   void updateApprovalStatus(String id, int status) async {
     final result = await firebaseService.updateApprovalStatus(id, status);
     notifyListeners();
+  }
     
   void addOrganization(String name, String userId, Function(String) callback) async {
     firebaseService.addOrganization(name, userId).then((message) {
-      callback(message);
+      callback(message[message]);
       notifyListeners();
     }).catchError((error) {
       callback(error);
