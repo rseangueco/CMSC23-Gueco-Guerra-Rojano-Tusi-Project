@@ -49,14 +49,15 @@ class _AddressFormState extends State<AddressForm> {
                   prefixIcon: const Icon(Icons.location_on),
                   hintText: "Address for pickup",
                   counterText: "",
-                  suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _addressControllers.removeAt(index);
-                    });
-                  },
-                  icon: const Icon(Icons.clear)
-                )),
+                  suffixIcon: _addressControllers.length > 1
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _addressControllers.removeAt(index);
+                            });
+                          },
+                          icon: const Icon(Icons.clear))
+                      : null),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "This field is required";
@@ -86,7 +87,7 @@ class _AddressFormState extends State<AddressForm> {
             builder: (BuildContext context) => const SavedAddressModal(),
           );
 
-          if (addressModalReceiver.isEmpty){
+          if (addressModalReceiver.isEmpty) {
             return;
           }
 
