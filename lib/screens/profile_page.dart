@@ -29,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
       userId: 'org_id',
       name: 'test_org',
       // about: "about..",
+      proofs: [],
       donationStatus: 'Closed',
       approvalStatus: 'Approved');
 
