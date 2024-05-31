@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/auth_route_guard.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/screens/profile_page.dart';
 import 'package:cmsc23_project/screens/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Elbi Donation System',
-      initialRoute: '/',
+      initialRoute: '/profile',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -44,7 +45,8 @@ class RootWidget extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/donors-page': (context) => const DonorHomePage(),
         '/donate-page': (context) => const DonatePage(),
-        '/signup': (context) => const SignupPage()
+        '/signup': (context) => const SignupPage(),
+        '/profile': (context) => const ProfilePage(),
         /*'/signup': (context) => const AuthRouteGuard(
             requiredRole: 'organization',
             child: SignupPage(), 
