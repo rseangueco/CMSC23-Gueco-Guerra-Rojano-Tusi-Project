@@ -1,4 +1,5 @@
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/screens/components/donor_drawer.dart';
 import 'package:cmsc23_project/screens/components/organization_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
           title: const Center(child: Text('Organizations')),
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
+        drawer: DonorDrawer(userId: userId),
         body: StreamBuilder(
           stream: organizationStream,
           builder: (context, snapshot) {
@@ -54,6 +56,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     padding: EdgeInsets.all(10),
                     child: OrganizationCard(
                         organizationId: organization.id!,
+                        userId: userId,
                         organizationName: organization.name,
                         aboutOrganization: organization.about == null
                             ? ""

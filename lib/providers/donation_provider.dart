@@ -5,37 +5,54 @@ import '../models/donation_model.dart';
 
 class DonationProvider with ChangeNotifier {
   FirebaseDonationAPI firebaseService = FirebaseDonationAPI();
-  late Stream<QuerySnapshot> _donationListStream;
+  late Stream<QuerySnapshot> _donationsStream;
 
   DonationProvider() {
-    fetchDonationList();
+    fetchDonations();
   }
 
   // Getter
-  Stream<QuerySnapshot> get friend => _donationListStream;
+  Stream<QuerySnapshot> get donations => _donationsStream;
 
-  void fetchDonationList() {
-    _donationListStream = firebaseService.getDonationList();
+  void fetchDonations() {
+    _donationsStream = firebaseService.getDonationList();
     notifyListeners();
   }
 
-  void addDonation(Donation donation) async {
+  Stream<QuerySnapshot> fetchDonorDonations(String userId) {
+    Stream<QuerySnapshot> donorDonationStream =
+        firebaseService.getDonorDonations(userId);
+    notifyListeners();
+
+    return donorDonationStream;
+  }
+
+  Future<Map<String, dynamic>> addDonation(Donation donation) async {
     final result = await firebaseService.addDonation(donation.toJson(donation));
     notifyListeners();
+
+    return result;
   }
 
-  void editDonation(String id, Donation donation) async {
+  Future<Map<String, dynamic>> editDonation(
+      String id, Donation donation) async {
     final result = await firebaseService.editDonation(id, donation);
     notifyListeners();
+
+    return result;
   }
 
-  void deleteDonation(String id) async {
+  Future<Map<String, dynamic>> deleteDonation(String id) async {
     final result = await firebaseService.deleteDonation(id);
     notifyListeners();
+
+    return result;
   }
 
-  void updateStatus(String id, String newStatus) async {
-    final result = await firebaseService.updateStatus(id, newStatus);
+  Future<Map<String, dynamic>> updateStatus(String id, String newStatus) async {
+    final result = firebaseService.updateStatus(id, newStatus);
     notifyListeners();
+
+    return result;
   }
 }

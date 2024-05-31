@@ -62,28 +62,24 @@ class FirebaseOrganizationAPI {
     }
   }
 
-  String addDonation(String id, String donationId) {
-    final docRef = db.collection("organizations").doc(id);
-    docRef.get().then((DocumentSnapshot doc) {
-      if (doc.exists) {
-        Organization organization =
-            Organization.fromJson(doc.data() as Map<String, dynamic>);
+  Future<Map<String, dynamic>> addDonation(String id, String donationId) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await db.collection("organizations").doc(id).get();
+      if (documentSnapshot.exists) {
+        Organization organization = Organization.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
         organization.donations ??= [donationId];
-        final result =
-            editOrganization(id, organization) as Map<String, dynamic>;
-        if (result['success'] = true) {
-          return "Donation has been successfully added to Organization";
-        } else {
-          return result['message'];
-        }
+        return {
+          'success': true,
+          'message': "Donation has been successfully added!"
+        };
       } else {
-        return "Organization cannot be found.";
+        return {'success': false, 'message': "Organization cannot be found"};
       }
-    }, onError: (e) {
-      return "Error getting Organization: $e";
-    });
-
-    return "Donation has been successfully added";
+    } catch (e) {
+      return {'success': false, 'message': "Error getting Organization: $e"};
+    }
   }
 
   Future<Map<String, dynamic>> updateApprovalStatus(

@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/auth_route_guard.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/screens/components/donor_donations_page.dart';
 import 'package:cmsc23_project/screens/profile_page.dart';
 import 'package:cmsc23_project/screens/donation_drive_info_page.dart';
 import 'package:cmsc23_project/screens/donation_drives_page.dart';
@@ -42,7 +43,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Elbi Donation System',
-      initialRoute: '/profile',
+      initialRoute: '/',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -50,6 +51,8 @@ class RootWidget extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/donors-page': (context) => const DonorHomePage(),
         '/donate-page': (context) => const DonatePage(),
+        '/donor-donations': (context) => const DonorDonationsPage(),
+        'donation-info': (context) => const DonationInfoPage(),
         '/signup': (context) => const SignupPage(),
         '/profile': (context) => const ProfilePage(),
         '/org-home': (context) => const OrganizationPage(),
@@ -60,12 +63,7 @@ class RootWidget extends StatelessWidget {
         )*/
       },
       onGenerateRoute: (settings) {
-        if (settings.name == DonationInfoPage.routename) {
-          final args = settings.arguments as ScreenArguments;
-          return MaterialPageRoute(builder: (context) {
-            return DonationInfoPage(donation: args.donation);
-          });
-        }else if (settings.name == DonationDriveInfoPage.routename) {
+        if (settings.name == DonationDriveInfoPage.routename) {
           final args = settings.arguments as DonationDriveScreenArguments;
           return MaterialPageRoute(builder: (context) {
             return DonationDriveInfoPage(drive: args.drive);

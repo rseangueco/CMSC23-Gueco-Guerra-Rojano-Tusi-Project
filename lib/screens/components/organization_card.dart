@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class OrganizationCard extends StatefulWidget {
   final String organizationId,
+      userId,
       organizationName,
       aboutOrganization,
       donationStatus;
   const OrganizationCard(
       {required this.organizationId,
+      required this.userId,
       required this.organizationName,
       required this.aboutOrganization,
       required this.donationStatus,
@@ -28,8 +30,10 @@ class _OrganizationCardState extends State<OrganizationCard> {
         color: Colors.blue,
         child: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/donate-page',
-                  arguments: widget.organizationId);
+              Navigator.pushNamed(context, '/donate-page', arguments: {
+                'organizationId': widget.organizationId,
+                'userId': widget.userId
+              });
             },
             splashColor: Colors.black,
             child: Container(

@@ -1,5 +1,7 @@
 import 'package:cmsc23_project/models/donation_model.dart';
 import 'package:cmsc23_project/providers/donation_provider.dart';
+import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/providers/user_details_provider.dart';
 import 'package:cmsc23_project/screens/components/image_upload.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,6 @@ class _DonatePageState extends State<DonatePage> {
   // form data
   final List<String> formItemCategories = [];
   double formWeight = 0;
-  // final String formPhoto = "";
   final Map<dynamic, dynamic> formDateTime = {
     'date': null,
     'time': null,
@@ -31,14 +32,16 @@ class _DonatePageState extends State<DonatePage> {
   final List<String> formAddress = [];
   String formContactNumber = "";
   String donationPhoto = "";
+  String donationDriveId = "";
 
   final _formKey = GlobalKey<FormState>();
 
-  late String organizationId;
+  late Map<String, String> donor;
 
   @override
   Widget build(BuildContext context) {
-    // organizationId = ModalRoute.of(context)!.settings.arguments as String;
+    donor = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -145,10 +148,12 @@ class _DonatePageState extends State<DonatePage> {
   }
 
   Widget get confirmButton => ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
             _formKey.currentState?.save();
-
+            final result1 = await context
+                .read<UserDetailsProvider>()
+                .getUsername(donor['userId']!);
             // checkers
             // save donor username
             print(formItemCategories);
@@ -161,20 +166,46 @@ class _DonatePageState extends State<DonatePage> {
             // donationDriveId = null
             // donationstatus initial
             Donation donation = Donation(
-                userId: "userId",
+                userId: donor['userId']!,
+                username: result1['message'],
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
-                //  photo: donationPhoto,
-                collectionDate: DateFormat.yMMMMd('en_US').format(formDateTime['date']).toString(),
+                photo: donationPhoto,
+                collectionDate: DateFormat.yMMMMd('en_US')
+                    .format(formDateTime['date'])
+                    .toString(),
                 collectionTime: formDateTime['time'].format(context).toString(),
-                organizationId: organizationId,
-                status: "pending");
-            final result =
-                context.read<DonationProvider>().addDonation(donation);
-            // if (result['success'] == true) {
-            //   context.read<DonationProvider>().addDonation(donation);
-            // }
+                pickupAddress: formAddress,
+                pickupContactNo: formContactNumber,
+                organizationId: donor['organizationId']!,
+                donationDriveId: donationDriveId,
+                status: "Pending");
+            if (mounted) {
+              final result2 =
+                  await context.read<DonationProvider>().addDonation(donation);
+              if (mounted) {
+                if (result2['success'] = true) {
+                  String donationId = result2['message'];
+                  final result3 = await context
+                      .read<OrganizationProvider>()
+                      .addDonation(donor['organizationId']!, donationId);
+                  if (mounted) {
+                    if (result3['success'] == true) {
+                      final message = SnackBar(
+                        content: Text(result3['message']),
+                        backgroundColor: Colors.green,
+                        elevation: 10,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(5),
+                      );
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(message);
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         child: const Text('Confirm Donation'),
