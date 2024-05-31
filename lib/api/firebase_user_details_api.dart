@@ -17,7 +17,24 @@ class FirebaseUserDetailsAPI {
         return {'success': false, 'message': "User cannot be found"};
       }
     } catch (e) {
-      return {'success': false, 'message': "Error getting Organization: $e"};
+      return {'success': false, 'message': "Error getting Details: $e"};
+    }
+  }
+
+  Future<Map<String, dynamic>> getUsername(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await db.collection("userdetails").doc(id).get();
+      if (documentSnapshot.exists) {
+        UserDetails userDetails = UserDetails.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
+        String username = userDetails.type;
+        return {'success': true, 'message': username};
+      } else {
+        return {'success': false, 'message': "User cannot be found"};
+      }
+    } catch (e) {
+      return {'success': false, 'message': "Error getting User Details: $e"};
     }
   }
 

@@ -10,6 +10,7 @@ class OrganizationProvider with ChangeNotifier {
 
   OrganizationProvider() {
     fetchApprovedOrganizations();
+    fetchPendingOrganizations();
   }
 
   // Getter
@@ -37,19 +38,27 @@ class OrganizationProvider with ChangeNotifier {
     });
   }
 
-  void editOrganization(String id, Organization organization) async {
+  Future<Map<String, dynamic>> editOrganization(
+      String id, Organization organization) async {
     final result = await firebaseService.editOrganization(id, organization);
     notifyListeners();
+
+    return result;
   }
 
-  void deleteOrganization(String id) async {
+  Future<Map<String, dynamic>> deleteOrganization(String id) async {
     final result = await firebaseService.deleteOrganization(id);
     notifyListeners();
+
+    return result;
   }
 
-  void updateApprovalStatus(String id, int status) async {
+  Future<Map<String, dynamic>> updateApprovalStatus(
+      String id, int status) async {
     final result = await firebaseService.updateApprovalStatus(id, status);
     notifyListeners();
+
+    return result;
   }
 
   Future<Map<String, dynamic>> addDonation(String id, String donationId) async {
