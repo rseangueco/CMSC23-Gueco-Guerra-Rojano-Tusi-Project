@@ -43,7 +43,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Elbi Donation System',
-      initialRoute: '/org-donation-drives',
+      initialRoute: '/',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -56,21 +56,21 @@ class RootWidget extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/profile': (context) => const ProfilePage(),
         '/org-home': (context) => const OrganizationPage(),
-        '/org-donation-drives': (context) => const DonationDrivesPage()
+        // '/org-donation-drives': (context) => const DonationDrivesPage()
         /*'/signup': (context) => const AuthRouteGuard(
             requiredRole: 'organization',
             child: SignupPage(), 
         )*/
       },
-      onGenerateRoute: (settings) {
-        if (settings.name == DonationDriveInfoPage.routename) {
-          final args = settings.arguments as DonationDriveScreenArguments;
-          return MaterialPageRoute(builder: (context) {
-            return DonationDriveInfoPage(drive: args.drive);
-          });
-        }
-        return null;
-      },
+      // onGenerateRoute: (settings) {
+      //   if (settings.name == DonationDriveInfoPage.routename) {
+      //     final args = settings.arguments as DonationDriveScreenArguments;
+      //     return MaterialPageRoute(builder: (context) {
+      //       return DonationDriveInfoPage(drive: args.drive);
+      //     });
+      //   }
+      //   return null;
+      // },
     );
   }
 }

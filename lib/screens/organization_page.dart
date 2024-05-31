@@ -1,7 +1,10 @@
-import 'package:cmsc23_project/screens/components/organization_drawer.dart';
-import 'package:cmsc23_project/screens/donation_info_page.dart';
+import 'package:cmsc23_project/providers/donation_provider.dart';
+import 'package:cmsc23_project/screens/components/donor_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cmsc23_project/models/donation_model.dart';
 
 class OrganizationPage extends StatefulWidget {
   const OrganizationPage({super.key});
@@ -11,69 +14,63 @@ class OrganizationPage extends StatefulWidget {
 }
 
 class _OrganizationPageState extends State<OrganizationPage> {
-  // List<Map<String, dynamic>> donations = [
-  //   {'donor': 'trguerra','category': ['Food'], 'status': 'Pending'},
-  //   {'donor': 'gueco','category': ['Clothes', 'Necessities'], 'status': 'Confirmed'},
-  //   {'donor': 'rojano','category': ['Food', 'Cash', 'Others'], 'status': 'Complete'},
-  //   {'donor': 'rojano','category': ['Necessities'], 'status': 'Cancelled'},
-  // ];
-
-  List<Map<String, dynamic>> donations = [
-    {
-      'userId': 'trguerra',
-      'category': ['Food'],
-      'weight': 5.toDouble(),
-      'collectionMethod': 1,
-      'photo': '<url>',
-      'collectionDate': "May 31, 2024", // this
-      'collectionTime': "7:41 PM", // this
-      'pickupContactNo': '09123456789',
-      'pickupAddress': ['address1', 'address2', 'address3'],
-      'organizationId': 'org1',
-      'donationDriveId': 'org1_donationdrive',
-      'status': 'Pending',
-    },
-    {
-      'userId': 'rojano',
-      'category': ['Cash', 'Necessities'],
-      'weight': 5.toDouble(),
-      'collectionMethod': 1,
-      'photo': '<url>',
-      'collectionDate': "May 31, 2024", // this
-      'collectionTime': "7:41 PM", // this
-      'pickupContactNo': '09123456789',
-      'pickupAddress': ['address1', 'address2', 'address3'],
-      'organizationId': 'org1',
-      'donationDriveId': 'org1_donationdrive',
-      'status': 'Pending',
-    }
-  ];
+  late String userId;
 
   @override
   Widget build(BuildContext context) {
+    userId = ModalRoute.of(context)!.settings.arguments as String;
+    // Access the donor's donations in the provider
+    Stream<QuerySnapshot> organizationDonationStream =
+        context.watch<DonationProvider>().fetchOrganizationDonations(userId);
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Donations List"),
+          backgroundColor: Colors.blue,
+          title: const Center(child: Text('Donations')),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
-        drawer: const OrganizationDrawer(),
-        body: ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: donations.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-                child: ListTile(
-              title: donations[index]['category'].length == 1
-                  ? Text('${donations[index]['category'][0]} donation')
-                  : const Text('Assorted Donation'),
-              subtitle: Text('Donated by: ${donations[index]['userId']}'),
-              trailing: Text('(${donations[index]['status']})'),
-              leading: chooseIcon(donations[index]['category']),
-              onTap: () {
-                // pass data to donation info page
-                // Navigator.pushNamed(context, 'donation-info',
-                //     arguments: donation);
+        drawer: DonorDrawer(userId: userId),
+        body: StreamBuilder(
+          stream: organizationDonationStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Error encountered! ${snapshot.error}"),
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Text("No Donations Found"),
+              );
+            }
+
+            return ListView.builder(
+              padding: const EdgeInsets.all(8),
+              itemCount: snapshot.data?.docs.length,
+              itemBuilder: (BuildContext context, int index) {
+                Donation donation = Donation.fromJson(
+                    snapshot.data?.docs[index].data() as Map<String, dynamic>);
+                print(donation.id);
+                donation.id = snapshot.data?.docs[index].id;
+                return Card(
+                    child: ListTile(
+                  title: donation.category.length == 1
+                      ? Text('${donation.category[0]} donation')
+                      : const Text('Assorted Donation'),
+                  subtitle: Text('Donated by: ${donation.username}'),
+                  trailing: Text('(${donation.status})'),
+                  leading: chooseIcon(donation.category),
+                  onTap: () {
+                    // pass data to donation info page
+                    Navigator.pushNamed(context, 'donation-info',
+                        arguments: donation);
+                  },
+                ));
               },
-            ));
+            );
           },
         ));
   }

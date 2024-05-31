@@ -4,7 +4,8 @@ import "package:cmsc23_project/screens/profile_page.dart";
 import "package:flutter/material.dart";
 
 class OrganizationDrawer extends StatelessWidget {
-  const OrganizationDrawer({super.key});
+  final String userId;
+  const OrganizationDrawer({required this.userId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,25 +20,21 @@ class OrganizationDrawer extends StatelessWidget {
             child: Text('Elbi Donation System'),
           ),
           ListTile(
-            title: const Text('Donations List'),
+            title: const Text('Donations'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const OrganizationPage(),
-                ),
-              );
+              Navigator.pushNamed(context, '/org-home', arguments: userId);
             },
           ),
           ListTile(
             title: const Text('Donation Drives'),
             onTap: () {
-              Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const DonationDrivesPage(),
-                ),
-              );
+              // Navigator.pop(context);
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const DonationDrivesPage(),
+              //   ),
+              // );
             },
           ),
           ListTile(
