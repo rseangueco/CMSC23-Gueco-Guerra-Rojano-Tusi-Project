@@ -1,4 +1,5 @@
 import 'package:cmsc23_project/providers/auth_provider.dart';
+import "package:cmsc23_project/screens/profile_page.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -30,7 +31,11 @@ class DonorDrawer extends StatelessWidget {
             title: const Text('Profile'),
             onTap: () {
               // Update the state of the app.
-              // ...
+                  Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+              );
             },
           ),
           ListTile(

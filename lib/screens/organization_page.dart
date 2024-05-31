@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/providers/donation_provider.dart';
 import 'package:cmsc23_project/screens/components/donor_drawer.dart';
+import 'package:cmsc23_project/screens/components/organization_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,10 @@ class _OrganizationPageState extends State<OrganizationPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: const Center(child: Text('Donations')),
+          title: const Text('Donations'),
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
-        drawer: DonorDrawer(userId: userId),
+        drawer: OrganizationDrawer(userId: userId),
         body: StreamBuilder(
           stream: organizationDonationStream,
           builder: (context, snapshot) {
