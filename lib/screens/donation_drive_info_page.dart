@@ -92,7 +92,11 @@ class _DonationDriveInfoPageState extends State<DonationDriveInfoPage> {
                                 child: const Text("Edit information", style: TextStyle(color: Colors.white)),
                                 ),
                             ElevatedButton(
-                                onPressed: () => {},
+                                onPressed: () {
+                                  // TODO: delete drive
+                                  // TODO: add logic for clearing (set as "") donationDriveId of donations of deleted donation drives
+                                  Navigator.pop(context);
+                                },
                                 style: const ButtonStyle(
                                     backgroundColor: MaterialStatePropertyAll(
                                         Color.fromARGB(255, 255, 165, 159))),
