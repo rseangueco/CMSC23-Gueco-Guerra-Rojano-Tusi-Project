@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/auth_route_guard.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/screens/admin_homepage.dart';
 import 'package:cmsc23_project/screens/components/donor_donations_page.dart';
 import 'package:cmsc23_project/screens/profile_page.dart';
 import 'package:cmsc23_project/screens/donation_drive_info_page.dart';
@@ -56,7 +57,8 @@ class RootWidget extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/profile': (context) => const ProfilePage(),
         '/org-home': (context) => const OrganizationPage(),
-        // '/org-donation-drives': (context) => const DonationDrivesPage()
+        '/org-donation-drives': (context) => const DonationDrivesPage(),
+        '/admin-page': (context) => const AdminPage(),
         /*'/signup': (context) => const AuthRouteGuard(
             requiredRole: 'organization',
             child: SignupPage(), 
