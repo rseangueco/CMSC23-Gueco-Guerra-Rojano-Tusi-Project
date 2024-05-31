@@ -166,9 +166,9 @@ class _DonatePageState extends State<DonatePage> {
                 status: "pending");
             final result =
                 context.read<DonationProvider>().addDonation(donation);
-            if (result['success'] = true) {
-              context.read<DonationProvider>().addDonation(donation);
-            }
+            // if (result['success'] == true) {
+            //   context.read<DonationProvider>().addDonation(donation);
+            // }
           }
 
           // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm
