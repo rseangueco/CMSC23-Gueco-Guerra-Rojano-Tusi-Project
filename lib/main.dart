@@ -43,7 +43,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Elbi Donation System',
-      initialRoute: '/org-donation-drives',
+      initialRoute: '/',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
