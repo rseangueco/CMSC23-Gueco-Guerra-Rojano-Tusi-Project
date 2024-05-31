@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 class Donation {
+  String? id;
   String userId; // foreign key for the donor
+  String username;
   List<dynamic> category;
   double weight;
   int collectionMethod;
@@ -15,7 +17,9 @@ class Donation {
   String status;
 
   Donation(
-      {required this.userId,
+      {this.id,
+      required this.userId,
+      required this.username,
       required this.category,
       required this.weight,
       required this.collectionMethod,
@@ -31,6 +35,7 @@ class Donation {
   factory Donation.fromJson(Map<String, dynamic> json) {
     return Donation(
       userId: json['userId'],
+      username: json['username'],
       category: json['category'],
       weight: json['weight'],
       collectionMethod: json['collectionMethod'],
@@ -53,6 +58,7 @@ class Donation {
   Map<String, dynamic> toJson(Donation donation) {
     return {
       'userId': donation.userId,
+      'username': donation.username,
       'category': donation.category,
       'weight': donation.weight,
       'collectionMethod': donation.collectionMethod,
