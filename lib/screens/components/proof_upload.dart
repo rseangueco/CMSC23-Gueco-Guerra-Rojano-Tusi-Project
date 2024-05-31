@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cmsc23_project/utils/image_converter.dart';
 
-class ImageUpload extends StatefulWidget {
+class ProofUpload extends StatefulWidget {
   final String uploadLabelText;
   final Function callback;
 
-  const ImageUpload(
+  const ProofUpload(
       {required this.uploadLabelText, required this.callback, super.key});
 
   @override
-  State<ImageUpload> createState() => _ImageUploadState();
+  State<ProofUpload> createState() => _ProofUploadState();
 }
 
-class _ImageUploadState extends State<ImageUpload> {
+class _ProofUploadState extends State<ProofUpload> {
   final ImagePicker _picker = ImagePicker();
   XFile? _selectedImage;
 
@@ -30,7 +30,7 @@ class _ImageUploadState extends State<ImageUpload> {
     String convertedImage =
         await ImageConverter().convertToBase64(File(returnedImage.path));
 
-    widget.callback(convertedImage);
+    widget.callback({'proof': convertedImage, 'name': returnedImage.name});
   }
 
   Future<void> _uploadImageFromGallery() async {
@@ -51,9 +51,9 @@ class _ImageUploadState extends State<ImageUpload> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(10),
         child: Container(
-          height: 200,
+          height: 100,
           alignment: Alignment.center,
           color: const Color.fromRGBO(247, 242, 249, 1),
           child: Container(
@@ -115,34 +115,17 @@ class _ImageUploadState extends State<ImageUpload> {
                               ],
                             )),
                       ),
-                  child: _selectedImage != null
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                              const Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 12),
-                                      'Tap to Replace Image')),
-                              Expanded(
-                                child: Image.file(File(_selectedImage!.path)),
-                              )
-                            ])
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(size: 40, Icons.upload),
-                            const SizedBox(height: 10),
-                            Text(
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontStyle: FontStyle.italic),
-                                widget.uploadLabelText)
-                          ],
-                        ))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(size: 40, Icons.upload),
+                      const SizedBox(height: 10),
+                      Text(
+                          style: const TextStyle(
+                              color: Colors.black, fontStyle: FontStyle.italic),
+                          widget.uploadLabelText)
+                    ],
+                  ))),
         ));
   }
 }

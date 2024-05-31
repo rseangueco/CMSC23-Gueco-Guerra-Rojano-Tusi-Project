@@ -5,6 +5,7 @@ class Organization {
   String userId;
   String name;
   String? about;
+  List<dynamic> proofs;
   String donationStatus;
   List<dynamic>? donations; // foreign keys to the donations
   String approvalStatus;
@@ -14,6 +15,7 @@ class Organization {
       required this.userId,
       required this.name,
       this.about,
+      required this.proofs,
       required this.donationStatus,
       this.donations,
       required this.approvalStatus});
@@ -25,6 +27,7 @@ class Organization {
         userId: json['userId'],
         name: json['name'],
         about: json['about'],
+        proofs: json['proofs'],
         donationStatus: json['donationStatus'],
         approvalStatus: json['approvalStatus'],
         donations: json['donations']);
@@ -42,6 +45,7 @@ class Organization {
       'userId': organization.userId,
       'name': organization.name,
       'about': organization.about,
+      'proofs': organization.proofs,
       'donationStatus': organization.donationStatus,
       'approvalStatus': organization.approvalStatus,
       'donations': organization.donations

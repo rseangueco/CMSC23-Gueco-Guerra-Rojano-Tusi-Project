@@ -29,6 +29,7 @@ class _DonatePageState extends State<DonatePage> {
   int isForPickup = 1;
   final List<String> formAddress = [];
   String formContactNumber = "";
+  String donationPhoto = "";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -63,7 +64,9 @@ class _DonatePageState extends State<DonatePage> {
                     ContactNumberField(updateContactNo: _updateContactNo)
                   ])),
               const Divider(),
-              const ImageUpload(uploadLabelText: "Add Donation Photo"),
+              ImageUpload(
+                  uploadLabelText: "Add Donation Photo",
+                  callback: (String photo) => donationPhoto = photo),
               confirmButton,
             ],
           )),
@@ -160,15 +163,16 @@ class _DonatePageState extends State<DonatePage> {
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
+                photo: donationPhoto,
                 collectionDate: formDateTime['date'],
                 collectionTime: formDateTime['time'],
                 organizationId: organizationId,
                 status: "pending");
             final result =
                 context.read<DonationProvider>().addDonation(donation);
-            if (result['success'] = true) {
-              context.read<DonationProvider>().addDonation(donation);
-            }
+            // if (result['success'] = true) {
+            //   context.read<DonationProvider>().addDonation(donation);
+            // }
           }
 
           // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm

@@ -63,7 +63,7 @@ class _OrganizationCardState extends State<OrganizationCard> {
                                   fontStyle: FontStyle.italic,
                                   fontSize: 18),
                               "Donation Status: "),
-                          widget.donationStatus == "open"
+                          widget.donationStatus == "Open"
                               ? const Text(
                                   style: TextStyle(
                                       color: Colors.green,
@@ -77,7 +77,7 @@ class _OrganizationCardState extends State<OrganizationCard> {
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic,
                                       fontSize: 18),
-                                  "Open")
+                                  "Close")
                         ],
                       )
                     ]))));

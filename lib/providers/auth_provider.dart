@@ -13,7 +13,6 @@ class AuthProvider with ChangeNotifier {
   AuthProvider() {
     authService = FirebaseAuthAPI();
     fetchAuthentication();
-    
   }
 
   Stream<User?> get userStream => uStream;
@@ -33,16 +32,20 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> signUp(String email, String password, UserDetails userDetails) async {
-    Map<String, dynamic> signupResult = await authService.signUp(email, password, userDetails.toJson(userDetails));
+  Future<Map<String, dynamic>> signUp(
+      String email, String password, UserDetails userDetails) async {
+    Map<String, dynamic> signupResult = await authService.signUp(
+        email, password, userDetails.toJson(userDetails));
     notifyListeners();
 
     return signupResult;
   }
 
-  Future<void> signIn(String email, String password) async {
-    await authService.signIn(email, password);
+  Future<Map<String, dynamic>> signIn(String email, String password) async {
+    final message = await authService.signIn(email, password);
     notifyListeners();
+
+    return message;
   }
 
   Future<void> addOrgId(String userid, String orgId) async {

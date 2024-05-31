@@ -5,18 +5,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrganizationProvider with ChangeNotifier {
   FirebaseOrganizationAPI firebaseService = FirebaseOrganizationAPI();
-  late Stream<QuerySnapshot> _organizationListStream;
+  late Stream<QuerySnapshot> _approvedOrganizationsStream;
+  late Stream<QuerySnapshot> _pendingOrganizationsStream;
 
   OrganizationProvider() {
-    fetchOrganizationList();
+    fetchApprovedOrganizations();
   }
 
   // Getter
-  Stream<QuerySnapshot> get organization => _organizationListStream;
+  Stream<QuerySnapshot> get approved => _approvedOrganizationsStream;
+  Stream<QuerySnapshot> get pending => _pendingOrganizationsStream;
 
-  void fetchOrganizationList() {
-    _organizationListStream = firebaseService.getOrganizationList();
+  void fetchApprovedOrganizations() {
+    _approvedOrganizationsStream = firebaseService.getApprovedOrganizations();
     notifyListeners();
+  }
+
+  void fetchPendingOrganizations() {
+    _pendingOrganizationsStream = firebaseService.getPendingOrganizations();
+    notifyListeners();
+  }
+
+  void addOrganization(String name, List<String> proofs, String userId,
+      Function(String) callback) async {
+    firebaseService.addOrganization(name, proofs, userId).then((message) {
+      callback(message['message']);
+      notifyListeners();
+    }).catchError((error) {
+      callback(error);
+      notifyListeners();
+    });
   }
 
   void editOrganization(String id, Organization organization) async {
@@ -32,15 +50,5 @@ class OrganizationProvider with ChangeNotifier {
   void updateApprovalStatus(String id, int status) async {
     final result = await firebaseService.updateApprovalStatus(id, status);
     notifyListeners();
-  }
-    
-  void addOrganization(String name, String userId, Function(String) callback) async {
-    firebaseService.addOrganization(name, userId).then((message) {
-      callback(message[message]);
-      notifyListeners();
-    }).catchError((error) {
-      callback(error);
-      notifyListeners();
-    });
   }
 }
