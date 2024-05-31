@@ -2,6 +2,7 @@ import 'package:cmsc23_project/models/donation_model.dart';
 import 'package:cmsc23_project/providers/donation_provider.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
 import 'package:cmsc23_project/screens/components/image_upload.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '/screens/components/address_form.dart';
 import 'package:cmsc23_project/screens/components/contact_number_field.dart';
@@ -38,7 +39,11 @@ class _DonatePageState extends State<DonatePage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     donor = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+=======
+    // organizationId = ModalRoute.of(context)!.settings.arguments as String;
+>>>>>>> e8807ad85715b98d6f0b1b54a4c0f809ccddf6ba
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -97,6 +102,7 @@ class _DonatePageState extends State<DonatePage> {
               return "Please enter weight in number";
             }
           }
+          return null;
         },
       ));
 
@@ -164,6 +170,7 @@ class _DonatePageState extends State<DonatePage> {
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
+<<<<<<< HEAD
                 photo: donationPhoto,
                 collectionDate: formDateTime['date'],
                 collectionTime: formDateTime['time'],
@@ -192,9 +199,19 @@ class _DonatePageState extends State<DonatePage> {
                 }
               }
             }
+=======
+                //  photo: donationPhoto,
+                collectionDate: DateFormat.yMMMMd('en_US').format(formDateTime['date']).toString(),
+                collectionTime: formDateTime['time'].format(context).toString(),
+                organizationId: organizationId,
+                status: "pending");
+            final result =
+                context.read<DonationProvider>().addDonation(donation);
+            // if (result['success'] == true) {
+            //   context.read<DonationProvider>().addDonation(donation);
+            // }
+>>>>>>> e8807ad85715b98d6f0b1b54a4c0f809ccddf6ba
           }
-
-          // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm
         },
         child: const Text('Confirm Donation'),
       );
