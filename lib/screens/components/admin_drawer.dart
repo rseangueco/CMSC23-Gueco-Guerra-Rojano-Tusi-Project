@@ -1,10 +1,8 @@
-import "package:cmsc23_project/screens/donation_drives_page.dart";
-import "package:cmsc23_project/screens/organization_page.dart";
-import "package:cmsc23_project/screens/profile_page.dart";
+import "package:cmsc23_project/screens/admin_homepage.dart";
 import "package:flutter/material.dart";
 
-class OrganizationDrawer extends StatelessWidget {
-  const OrganizationDrawer({super.key});
+class AdminDrawer extends StatelessWidget {
+  const AdminDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,33 +17,25 @@ class OrganizationDrawer extends StatelessWidget {
             child: Text('KalingApp'),
           ),
           ListTile(
-            title: const Text('Donations List'),
+            title: const Text('View Organizations & Donations'),
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const OrganizationPage(),
+                  builder: (context) => const AdminPage(),
                 ),
               );
             },
           ),
           ListTile(
-            title: const Text('Donation Drives'),
+            title: const Text('View Donors'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const DonationDrivesPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Profile'),
-            onTap: () {
-              MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (context) => const AdminViewDonors(),
+              //   ),
+              // );
             },
           ),
           ListTile(
