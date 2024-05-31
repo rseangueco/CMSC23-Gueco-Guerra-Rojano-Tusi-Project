@@ -45,7 +45,7 @@ class _ImageUploadState extends State<ImageUpload> {
     String convertedImage =
         await ImageConverter().convertToBase64(File(returnedImage.path));
 
-    widget.callback({'proof': convertedImage, 'name': returnedImage.name});
+    widget.callback(convertedImage);
   }
 
   @override

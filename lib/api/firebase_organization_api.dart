@@ -72,7 +72,7 @@ class FirebaseOrganizationAPI {
         organization.donations ??= [donationId];
         return {
           'success': true,
-          'message': "Donation has been successfully added"
+          'message': "Donation has been successfully added!"
         };
       } else {
         return {'success': false, 'message': "Organization cannot be found"};

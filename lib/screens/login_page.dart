@@ -88,20 +88,14 @@ class _HomePageState extends State<LoginPage> {
                 .read<AuthProvider>()
                 .signIn(usernameAsEmail, passwordController.text);
 
-            print(result['message']);
             if (result['success'] == false) {
               showSignInErrorMessage = true;
             } else {
               showSignInErrorMessage = false;
               String id = result['message'];
               if (context.mounted) {
-                if (id == "administrator") {
-                  Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/admin-page', arguments: id);
-                }
                 final userType =
                     await context.read<UserDetailsProvider>().getUserType(id);
-                print(userType);
                 if (context.mounted) {
                   if (userType['success'] == true) {
                     if (userType['message'] == "Donor") {
@@ -111,6 +105,10 @@ class _HomePageState extends State<LoginPage> {
                     } else if (userType['message'] == "Organization") {
                       Navigator.of(context).pop();
                       Navigator.pushNamed(context, '/sign-up', arguments: id);
+                    } else if (userType['message'] == "administrator") {
+                      Navigator.of(context).pop();
+                      Navigator.pushNamed(context, '/admin-page',
+                          arguments: id);
                     }
                   }
                 }

@@ -42,7 +42,7 @@ class DonationProvider with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> updateStatus(String id, String newStatus) async {
-    final result = await firebaseService.updateStatus(id, newStatus);
+    final result = firebaseService.updateStatus(id, newStatus);
     notifyListeners();
 
     return result;

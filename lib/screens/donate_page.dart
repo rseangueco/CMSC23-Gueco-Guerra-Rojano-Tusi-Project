@@ -21,7 +21,6 @@ class _DonatePageState extends State<DonatePage> {
   // form data
   final List<String> formItemCategories = [];
   double formWeight = 0;
-  // final String formPhoto = "";
   final Map<dynamic, dynamic> formDateTime = {
     'date': null,
     'time': null,
@@ -32,6 +31,7 @@ class _DonatePageState extends State<DonatePage> {
   final List<String> formAddress = [];
   String formContactNumber = "";
   String donationPhoto = "";
+  String donationDriveId = "";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -39,11 +39,8 @@ class _DonatePageState extends State<DonatePage> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     donor = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-=======
-    // organizationId = ModalRoute.of(context)!.settings.arguments as String;
->>>>>>> e8807ad85715b98d6f0b1b54a4c0f809ccddf6ba
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -170,11 +167,15 @@ class _DonatePageState extends State<DonatePage> {
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
-<<<<<<< HEAD
                 photo: donationPhoto,
-                collectionDate: formDateTime['date'],
-                collectionTime: formDateTime['time'],
+                collectionDate: DateFormat.yMMMMd('en_US')
+                    .format(formDateTime['date'])
+                    .toString(),
+                collectionTime: formDateTime['time'].format(context).toString(),
+                pickupAddress: formAddress,
+                pickupContactNo: formContactNumber,
                 organizationId: donor['organizationId']!,
+                donationDriveId: donationDriveId,
                 status: "Pending");
             final result =
                 await context.read<DonationProvider>().addDonation(donation);
@@ -194,23 +195,12 @@ class _DonatePageState extends State<DonatePage> {
                       behavior: SnackBarBehavior.floating,
                       margin: EdgeInsets.all(5),
                     );
+                    Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(message);
                   }
                 }
               }
             }
-=======
-                //  photo: donationPhoto,
-                collectionDate: DateFormat.yMMMMd('en_US').format(formDateTime['date']).toString(),
-                collectionTime: formDateTime['time'].format(context).toString(),
-                organizationId: organizationId,
-                status: "pending");
-            final result =
-                context.read<DonationProvider>().addDonation(donation);
-            // if (result['success'] == true) {
-            //   context.read<DonationProvider>().addDonation(donation);
-            // }
->>>>>>> e8807ad85715b98d6f0b1b54a4c0f809ccddf6ba
           }
         },
         child: const Text('Confirm Donation'),
