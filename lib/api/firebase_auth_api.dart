@@ -10,23 +10,21 @@ class FirebaseAuthAPI {
     return auth.authStateChanges();
   }
 
-
-  Future<String?> signIn(String email, String password) async {
+  Future<Map<String, dynamic>> signIn(String email, String password) async {
+    UserCredential credential;
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-      return null;
+      credential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return {'success': true, 'message': credential.user!.uid};
     } on FirebaseAuthException catch (e) {
-      return e.code;
+      return {'success': false, 'message': e.code};
     }
   }
 
-
-  Future<Map<String, dynamic>> signUp(String email, String password, Map<String, dynamic> userDetails) async {
+  Future<Map<String, dynamic>> signUp(
+      String email, String password, Map<String, dynamic> userDetails) async {
     UserCredential credential;
-    var result = {
-      'error': '',
-      'userId': ''
-    };
+    var result = {'error': '', 'userId': ''};
 
     try {
       credential = await auth.createUserWithEmailAndPassword(
@@ -48,35 +46,32 @@ class FirebaseAuthAPI {
         'address': userDetails['address'],
         'type': userDetails['type']
       });
-
     } on FirebaseAuthException catch (e) {
-        result['error'] = e.code;
+      result['error'] = e.code;
     }
 
     return result;
   }
 
-
   Future<void> addOrgId(String userId, String orgId) async {
-    try{
-      await db.collection("userdetails").doc(userId).update({
-        'organizationId': orgId
-      });
-    }
-    on FirebaseException catch (e){
+    try {
+      await db
+          .collection("userdetails")
+          .doc(userId)
+          .update({'organizationId': orgId});
+    } on FirebaseException catch (e) {
       print(e);
     }
   }
-
 
   Future<void> signOut() async {
     await auth.signOut();
   }
 
-
   Future<UserDetails?> fetchUserDetails(String userId) async {
     try {
-      DocumentSnapshot docRef = await db.collection('userdetails').doc(userId).get();
+      DocumentSnapshot docRef =
+          await db.collection('userdetails').doc(userId).get();
       return UserDetails.fromJson(docRef.data() as Map<String, dynamic>);
     } catch (e) {
       print('Failed to fetch user details: $e');

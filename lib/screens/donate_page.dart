@@ -1,6 +1,7 @@
 import 'package:cmsc23_project/models/donation_model.dart';
 import 'package:cmsc23_project/providers/donation_provider.dart';
 import 'package:cmsc23_project/screens/components/image_upload.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '/screens/components/address_form.dart';
 import 'package:cmsc23_project/screens/components/contact_number_field.dart';
@@ -29,6 +30,7 @@ class _DonatePageState extends State<DonatePage> {
   int isForPickup = 1;
   final List<String> formAddress = [];
   String formContactNumber = "";
+  String donationPhoto = "";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,7 +38,7 @@ class _DonatePageState extends State<DonatePage> {
 
   @override
   Widget build(BuildContext context) {
-    organizationId = ModalRoute.of(context)!.settings.arguments as String;
+    // organizationId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -63,7 +65,9 @@ class _DonatePageState extends State<DonatePage> {
                     ContactNumberField(updateContactNo: _updateContactNo)
                   ])),
               const Divider(),
-              const ImageUpload(uploadLabelText: "Add Donation Photo"),
+              ImageUpload(
+                  uploadLabelText: "Add Donation Photo",
+                  callback: (String photo) => donationPhoto = photo),
               confirmButton,
             ],
           )),
@@ -93,6 +97,7 @@ class _DonatePageState extends State<DonatePage> {
               return "Please enter weight in number";
             }
           }
+          return null;
         },
       ));
 
@@ -160,8 +165,9 @@ class _DonatePageState extends State<DonatePage> {
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
-                collectionDate: formDateTime['date'],
-                collectionTime: formDateTime['time'],
+                //  photo: donationPhoto,
+                collectionDate: DateFormat.yMMMMd('en_US').format(formDateTime['date']).toString(),
+                collectionTime: formDateTime['time'].format(context).toString(),
                 organizationId: organizationId,
                 status: "pending");
             final result =
@@ -170,8 +176,6 @@ class _DonatePageState extends State<DonatePage> {
             //   context.read<DonationProvider>().addDonation(donation);
             // }
           }
-
-          // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm
         },
         child: const Text('Confirm Donation'),
       );
