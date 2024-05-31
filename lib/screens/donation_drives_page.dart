@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/models/donation_drive_model.dart';
 import 'package:cmsc23_project/screens/components/organization_drawer.dart';
+import 'package:cmsc23_project/screens/donation_drive_form.dart';
 import 'package:cmsc23_project/screens/donation_drive_info_page.dart';
 import 'package:flutter/material.dart';
 
@@ -96,9 +97,10 @@ class _DonationDrivesPageState extends State<DonationDrivesPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            // modal input for title and description
+            Navigator.push(context, 
+                            MaterialPageRoute(builder: (context) => const DonationDriveForm(type: "create")));
           },
-          label: const Text('Add Donation Drive'),
+          label: const Text('Create Donation Drive'),
           icon: const Icon(Icons.add),
         ));
   }

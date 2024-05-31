@@ -1,5 +1,6 @@
 import "package:cmsc23_project/screens/donation_drives_page.dart";
 import "package:cmsc23_project/screens/organization_page.dart";
+import "package:cmsc23_project/screens/profile_page.dart";
 import "package:flutter/material.dart";
 
 class OrganizationDrawer extends StatelessWidget {
@@ -17,7 +18,7 @@ class OrganizationDrawer extends StatelessWidget {
             ),
             child: Text('Elbi Donation System'),
           ),
-          ListTile(  
+          ListTile(
             title: const Text('Donations List'),
             onTap: () {
               Navigator.pop(context);
@@ -42,9 +43,14 @@ class OrganizationDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Profile'),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              MaterialPageRoute(
+                builder: (context) => const ProfilePage(),
+              );
             },
+          ),
+          ListTile(
+            title: const Text('Logout'),
+            onTap: () {},
           ),
         ],
       ),

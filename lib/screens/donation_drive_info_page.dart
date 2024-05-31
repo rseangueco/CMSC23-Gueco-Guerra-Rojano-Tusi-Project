@@ -1,4 +1,5 @@
 import 'package:cmsc23_project/models/donation_drive_model.dart';
+import 'package:cmsc23_project/screens/donation_drive_form.dart';
 import 'package:cmsc23_project/screens/donation_linking_page.dart';
 import 'package:flutter/material.dart';
 
@@ -81,8 +82,15 @@ class _DonationDriveInfoPageState extends State<DonationDriveInfoPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                                onPressed: () => {},
-                                child: const Text("Edit information")),
+                              style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color.fromARGB(255, 228, 217, 66))),
+                                onPressed: () => {
+                                  Navigator.push(context, 
+                            MaterialPageRoute(builder: (context) => DonationDriveForm(type: "edit", title: widget.drive!.title, description: widget.drive!.description,)))
+                                },
+                                child: const Text("Edit information", style: TextStyle(color: Colors.white)),
+                                ),
                             ElevatedButton(
                                 onPressed: () => {},
                                 style: const ButtonStyle(
