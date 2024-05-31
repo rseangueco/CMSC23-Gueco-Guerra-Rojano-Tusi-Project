@@ -27,6 +27,14 @@ class DonationProvider with ChangeNotifier {
     return donorDonationStream;
   }
 
+  Stream<QuerySnapshot> fetchOrganizationDonations(String userId) {
+    Stream<QuerySnapshot> organizationDonationStream =
+        firebaseService.getOrganizationDonations(userId);
+    notifyListeners();
+
+    return organizationDonationStream;
+  }
+
   Future<Map<String, dynamic>> addDonation(Donation donation) async {
     final result = await firebaseService.addDonation(donation.toJson(donation));
     notifyListeners();

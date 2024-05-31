@@ -1,5 +1,3 @@
-import "package:cmsc23_project/screens/components/donor_donations_page.dart";
-import "package:cmsc23_project/screens/organization_page.dart";
 import 'package:cmsc23_project/providers/auth_provider.dart';
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
