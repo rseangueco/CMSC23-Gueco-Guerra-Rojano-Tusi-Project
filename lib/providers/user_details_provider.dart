@@ -25,4 +25,11 @@ class UserDetailsProvider with ChangeNotifier {
 
     return result;
   }
+
+  Future<Map<String, dynamic>> getUsername(String id) async {
+    final result = firebaseService.getUsername(id);
+    notifyListeners();
+
+    return result;
+  }
 }

@@ -70,10 +70,8 @@ class _OrganizationPageState extends State<OrganizationPage> {
               leading: chooseIcon(donations[index]['category']),
               onTap: () {
                 // pass data to donation info page
-                Navigator.pushNamed(context, DonationInfoPage.routename,
-                    arguments: ScreenArguments(
-                      donation: donations[index],
-                    ));
+                // Navigator.pushNamed(context, 'donation-info',
+                //     arguments: donation);
               },
             ));
           },

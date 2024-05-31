@@ -1,6 +1,7 @@
 import 'package:cmsc23_project/models/donation_model.dart';
 import 'package:cmsc23_project/providers/donation_provider.dart';
 import 'package:cmsc23_project/providers/organization_provider.dart';
+import 'package:cmsc23_project/providers/user_details_provider.dart';
 import 'package:cmsc23_project/screens/components/image_upload.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -150,7 +151,9 @@ class _DonatePageState extends State<DonatePage> {
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
             _formKey.currentState?.save();
-
+            final result1 = await context
+                .read<UserDetailsProvider>()
+                .getUsername(donor['userId']!);
             // checkers
             // save donor username
             print(formItemCategories);
@@ -164,6 +167,7 @@ class _DonatePageState extends State<DonatePage> {
             // donationstatus initial
             Donation donation = Donation(
                 userId: donor['userId']!,
+                username: result1['message'],
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
@@ -177,26 +181,27 @@ class _DonatePageState extends State<DonatePage> {
                 organizationId: donor['organizationId']!,
                 donationDriveId: donationDriveId,
                 status: "Pending");
-            final result =
-                await context.read<DonationProvider>().addDonation(donation);
-
             if (mounted) {
-              if (result['success'] = true) {
-                String donationId = result['message'];
-                final result2 = await context
-                    .read<OrganizationProvider>()
-                    .addDonation(donor['organizationId']!, donationId);
-                if (mounted) {
-                  if (result2['success'] == true) {
-                    final message = SnackBar(
-                      content: Text(result2['message']),
-                      backgroundColor: Colors.green,
-                      elevation: 10,
-                      behavior: SnackBarBehavior.floating,
-                      margin: EdgeInsets.all(5),
-                    );
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(message);
+              final result2 =
+                  await context.read<DonationProvider>().addDonation(donation);
+              if (mounted) {
+                if (result2['success'] = true) {
+                  String donationId = result2['message'];
+                  final result3 = await context
+                      .read<OrganizationProvider>()
+                      .addDonation(donor['organizationId']!, donationId);
+                  if (mounted) {
+                    if (result3['success'] == true) {
+                      final message = SnackBar(
+                        content: Text(result3['message']),
+                        backgroundColor: Colors.green,
+                        elevation: 10,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(5),
+                      );
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(message);
+                    }
                   }
                 }
               }

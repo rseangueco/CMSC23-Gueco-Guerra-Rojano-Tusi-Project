@@ -41,10 +41,17 @@ class _DonationDriveFormState extends State<DonationDriveForm> {
                         child: const Text("Return"),
                       ),
                       ElevatedButton(
-                          onPressed: () => {
-                                if (_formKey.currentState!.validate())
-                                  {_formKey.currentState?.save()}
-                              },
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              if (widget.type == 'edit') {
+                                // TODO: update title & desc
+                              } else {
+                                // TODO: add new drive to database
+                              }
+
+                              Navigator.pop(context);
+                            }
+                          },
                           style: const ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(
                                   Color.fromARGB(255, 60, 165, 44))),
