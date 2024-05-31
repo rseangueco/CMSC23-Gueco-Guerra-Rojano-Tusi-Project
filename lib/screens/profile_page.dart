@@ -29,12 +29,12 @@ class _ProfilePageState extends State<ProfilePage> {
       userId: 'org_id',
       name: 'test_org',
       // about: "about..",
-      donationStatus: 'Closed',
+      proofs: [],
+      donationStatus: 'Open',
       approvalStatus: 'Approved');
 
   @override
   Widget build(BuildContext context) {
-    // user =
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -83,22 +83,45 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     Text(org.name, style: const TextStyle(fontSize: 20)),
                   ]),
-                  
-                    const Text(
-                      "About the organization: ",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(org.about ?? "No about for this organization.", style: const TextStyle(fontSize: 15)),
-                  
+                  const Text(
+                    "About the organization: ",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(org.about ?? "No about for this organization.",
+                      style: const TextStyle(fontSize: 15)),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Text(
                       "Status for Donations: ",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(org.donationStatus, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: org.donationStatus == "Open" ? Colors.green : Colors.red)),
+                    Text(org.donationStatus,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: org.donationStatus == "Open"
+                                ? Colors.green
+                                : Colors.red)),
                   ]),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            // TODO: update donation status
+                          });
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                org.donationStatus == "Closed"
+                                    ? const Color.fromARGB(255, 47, 199, 88)
+                                    : const Color.fromARGB(255, 199, 47, 47))),
+                        child: Text(
+                            org.donationStatus == "Open"
+                                ? "Close Donations"
+                                : "Open Donations",
+                            style: const TextStyle(color: Colors.white))),
+                  ),
                   const Divider(),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Text(
@@ -106,8 +129,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(org.approvalStatus, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: org.approvalStatus == "Approved" ? Colors.green : Colors.red)),
-                  ])
+                    Text(org.approvalStatus,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: org.approvalStatus == "Approved"
+                                ? Colors.green
+                                : Colors.red)),
+                  ]),
                 ]);
               }
               return const SizedBox(width: 0, height: 0);
