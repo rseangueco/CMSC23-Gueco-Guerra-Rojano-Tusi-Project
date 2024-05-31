@@ -57,7 +57,7 @@ class RootWidget extends StatelessWidget {
         '/signup': (context) => const SignupPage(),
         '/profile': (context) => const ProfilePage(),
         '/org-home': (context) => const OrganizationPage(),
-        '/org-donation-drives': (context) => const DonationDrivesPage(),
+        // '/org-donation-drives': (context) => const DonationDrivesPage(),
         '/admin-page': (context) => const AdminPage(),
         /*'/signup': (context) => const AuthRouteGuard(
             requiredRole: 'organization',

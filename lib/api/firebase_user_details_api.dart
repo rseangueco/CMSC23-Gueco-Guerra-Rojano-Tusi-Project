@@ -38,6 +38,23 @@ class FirebaseUserDetailsAPI {
     }
   }
 
+  Future<Map<String, dynamic>> getOrganizationId(String id) async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await db.collection("userdetails").doc(id).get();
+      if (documentSnapshot.exists) {
+        UserDetails userDetails = UserDetails.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>);
+        String organizationId = userDetails.organizationId!;
+        return {'success': true, 'message': organizationId};
+      } else {
+        return {'success': false, 'message': "User cannot be found"};
+      }
+    } catch (e) {
+      return {'success': false, 'message': "Error getting Details: $e"};
+    }
+  }
+
   Stream<QuerySnapshot> getAllUsers() {
     return db.collection("userdetails").snapshots();
   }

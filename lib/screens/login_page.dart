@@ -104,9 +104,15 @@ class _HomePageState extends State<LoginPage> {
                       Navigator.pushNamed(context, '/donors-page',
                           arguments: id);
                     } else if (userType['message'] == "Organization") {
-                      usernameController.text = "";
-                      passwordController.text = "";
-                      Navigator.pushNamed(context, '/org-home', arguments: id);
+                      final organizationId = await context
+                          .read<UserDetailsProvider>()
+                          .getOrganizationId(id);
+                      if (context.mounted) {
+                        usernameController.text = "";
+                        passwordController.text = "";
+                        Navigator.pushNamed(context, '/org-home',
+                            arguments: organizationId['message']);
+                      }
                     } else if (userType['message'] == "administrator") {
                       usernameController.text = "";
                       passwordController.text = "";

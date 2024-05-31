@@ -32,4 +32,11 @@ class UserDetailsProvider with ChangeNotifier {
 
     return result;
   }
+
+  Future<Map<String, dynamic>> getOrganizationId(String id) async {
+    final result = firebaseService.getOrganizationId(id);
+    notifyListeners();
+
+    return result;
+  }
 }
