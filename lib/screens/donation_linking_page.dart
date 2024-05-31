@@ -14,6 +14,7 @@ class _DonationLinkingPageState extends State<DonationLinkingPage> {
   List<Donation> donations = [
     Donation(
       userId: 'trguerra',
+      username: 'GuerraG',
       category: ['Food'],
       weight: 5.toDouble(),
       collectionMethod: 1,
@@ -28,6 +29,7 @@ class _DonationLinkingPageState extends State<DonationLinkingPage> {
     ),
     Donation(
       userId: 'rojano',
+      username: 'RojanoRojano',
       category: ['Cash', 'Necessities'],
       weight: 5.toDouble(),
       collectionMethod: 1,
