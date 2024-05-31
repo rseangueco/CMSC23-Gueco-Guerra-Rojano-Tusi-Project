@@ -13,11 +13,13 @@ class DonorHomePage extends StatefulWidget {
 }
 
 class _DonorHomePageState extends State<DonorHomePage> {
+  late String userId;
   @override
   Widget build(BuildContext context) {
+    userId = ModalRoute.of(context)!.settings.arguments as String;
     // Access the list of organizations in the provider
     Stream<QuerySnapshot> organizationStream =
-        context.watch<OrganizationProvider>().organization;
+        context.watch<OrganizationProvider>().approved;
 
     return Scaffold(
         appBar: AppBar(
@@ -53,7 +55,9 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     child: OrganizationCard(
                         organizationId: organization.id!,
                         organizationName: organization.name,
-                        aboutOrganization: organization.about!,
+                        aboutOrganization: organization.about == null
+                            ? ""
+                            : organization.about!,
                         donationStatus: organization.donationStatus));
               }),
             );
