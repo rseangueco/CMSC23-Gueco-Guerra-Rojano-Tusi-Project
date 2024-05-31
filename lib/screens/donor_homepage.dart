@@ -54,6 +54,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
                     padding: EdgeInsets.all(10),
                     child: OrganizationCard(
                         organizationId: organization.id!,
+                        userId: userId,
                         organizationName: organization.name,
                         aboutOrganization: organization.about == null
                             ? ""

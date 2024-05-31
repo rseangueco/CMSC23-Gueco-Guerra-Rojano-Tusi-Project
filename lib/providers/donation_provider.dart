@@ -19,23 +19,32 @@ class DonationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addDonation(Donation donation) async {
+  Future<Map<String, dynamic>> addDonation(Donation donation) async {
     final result = await firebaseService.addDonation(donation.toJson(donation));
     notifyListeners();
+
+    return result;
   }
 
-  void editDonation(String id, Donation donation) async {
+  Future<Map<String, dynamic>> editDonation(
+      String id, Donation donation) async {
     final result = await firebaseService.editDonation(id, donation);
     notifyListeners();
+
+    return result;
   }
 
-  void deleteDonation(String id) async {
+  Future<Map<String, dynamic>> deleteDonation(String id) async {
     final result = await firebaseService.deleteDonation(id);
     notifyListeners();
+
+    return result;
   }
 
-  void updateStatus(String id, String newStatus) async {
+  Future<Map<String, dynamic>> updateStatus(String id, String newStatus) async {
     final result = await firebaseService.updateStatus(id, newStatus);
     notifyListeners();
+
+    return result;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cmsc23_project/models/donation_model.dart';
 import 'package:cmsc23_project/providers/donation_provider.dart';
+import 'package:cmsc23_project/providers/organization_provider.dart';
 import 'package:cmsc23_project/screens/components/image_upload.dart';
 import 'package:provider/provider.dart';
 import '/screens/components/address_form.dart';
@@ -33,11 +34,11 @@ class _DonatePageState extends State<DonatePage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  late String organizationId;
+  late Map<String, String> donor;
 
   @override
   Widget build(BuildContext context) {
-    organizationId = ModalRoute.of(context)!.settings.arguments as String;
+    donor = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -143,7 +144,7 @@ class _DonatePageState extends State<DonatePage> {
   }
 
   Widget get confirmButton => ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
             _formKey.currentState?.save();
 
@@ -159,20 +160,38 @@ class _DonatePageState extends State<DonatePage> {
             // donationDriveId = null
             // donationstatus initial
             Donation donation = Donation(
-                userId: "userId",
+                userId: donor['userId']!,
                 category: formItemCategories,
                 weight: formWeight,
                 collectionMethod: formIsForPickup ? 1 : 2,
                 photo: donationPhoto,
                 collectionDate: formDateTime['date'],
                 collectionTime: formDateTime['time'],
-                organizationId: organizationId,
-                status: "pending");
+                organizationId: donor['organizationId']!,
+                status: "Pending");
             final result =
-                context.read<DonationProvider>().addDonation(donation);
-            // if (result['success'] = true) {
-            //   context.read<DonationProvider>().addDonation(donation);
-            // }
+                await context.read<DonationProvider>().addDonation(donation);
+
+            if (mounted) {
+              if (result['success'] = true) {
+                String donationId = result['message'];
+                final result2 = await context
+                    .read<OrganizationProvider>()
+                    .addDonation(donor['organizationId']!, donationId);
+                if (mounted) {
+                  if (result2['success'] == true) {
+                    final message = SnackBar(
+                      content: Text(result2['message']),
+                      backgroundColor: Colors.green,
+                      elevation: 10,
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.all(5),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(message);
+                  }
+                }
+              }
+            }
           }
 
           // TODO: clear fields after? pero idk since mag navigator.pop naman ata after confirm

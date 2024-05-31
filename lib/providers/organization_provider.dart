@@ -51,4 +51,11 @@ class OrganizationProvider with ChangeNotifier {
     final result = await firebaseService.updateApprovalStatus(id, status);
     notifyListeners();
   }
+
+  Future<Map<String, dynamic>> addDonation(String id, String donationId) async {
+    final result = await firebaseService.addDonation(id, donationId);
+    notifyListeners();
+
+    return result;
+  }
 }
