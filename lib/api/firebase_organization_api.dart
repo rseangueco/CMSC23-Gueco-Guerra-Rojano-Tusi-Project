@@ -4,15 +4,28 @@ import 'package:cmsc23_project/models/organization_model.dart';
 class FirebaseOrganizationAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot> getOrganizationList() {
-    return db.collection("organizations").snapshots();
+  Stream<QuerySnapshot> getApprovedOrganizations() {
+    return db
+        .collection("organizations")
+        .where('approvalStatus', isEqualTo: 'Approved')
+        .snapshots();
   }
 
-  Future<Map<String, dynamic>> addOrganization(String name, String userId) async {
+  Stream<QuerySnapshot> getPendingOrganizations() {
+    return db
+        .collection("organizations")
+        .where('approvalStatus', isEqualTo: 'Pending')
+        .snapshots();
+  }
+
+  Future<Map<String, dynamic>> addOrganization(
+      String name, List<String> proofs, String userId) async {
     try {
       final docRef = await db.collection("organizations").add({
         'name': name,
-        'status': 'Pending',
+        'proofs': proofs,
+        'donationStatus': 'Pending',
+        'approvalStatus': 'Pending',
         'userId': userId
       });
 
@@ -59,15 +72,15 @@ class FirebaseOrganizationAPI {
         final result =
             editOrganization(id, organization) as Map<String, dynamic>;
         if (result['success'] = true) {
-          return "Donation has been successfully added to Donation Drive";
+          return "Donation has been successfully added to Organization";
         } else {
           return result['message'];
         }
       } else {
-        return "Donation Drive cannot be found.";
+        return "Organization cannot be found.";
       }
     }, onError: (e) {
-      return "Error getting Donation Drive: $e";
+      return "Error getting Organization: $e";
     });
 
     return "Donation has been successfully added";
@@ -76,7 +89,10 @@ class FirebaseOrganizationAPI {
   Future<Map<String, dynamic>> updateApprovalStatus(
       String id, int status) async {
     try {
-      await db.collection("organizations").doc(id).update({"status": status});
+      await db
+          .collection("organizations")
+          .doc(id)
+          .update({"approvalStatus": status});
 
       return {
         'success': true,
