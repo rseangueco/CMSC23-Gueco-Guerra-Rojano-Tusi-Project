@@ -23,29 +23,44 @@ class _DonationDriveInfoPageState extends State<DonationDriveInfoPage> {
           title: const Text("Donation Drive Info"),
         ),
         body: Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Donation Drive: ${widget.drive!['title']}"),
                 Text("Organization: ${widget.drive!['organization']}"),
                 Text("Description: ${widget.drive!['description']}"),
-                const Text("Donation Confirmation Photos:"),
-                ElevatedButton(
-                    onPressed: () => {
-                          // modal for viewing?
-                          // ask ma'am if linking is permanent
-                        },
-                    child: Text("Donations linked")),
-                ElevatedButton(
-                    onPressed: () => {}, child: Text("Link new donation")),
-                ElevatedButton(
-                    onPressed: () => {}, child: Text("Edit information")),
-                ElevatedButton(
-                    onPressed: () => {}, child: Text("Delete")),
-                ElevatedButton(
-                    onPressed: () => {Navigator.pop(context)},
-                    child: Text("Return")),
+                const Divider(),
+                const Text(
+                    "Donation Confirmation Photos:"), // TODO: implement this idk
+                    const Divider(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: ElevatedButton(
+                          onPressed: () => {},
+                          child: const Text("Link new donation"))),
+                  Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                                onPressed: () => {},
+                                child: const Text("Edit information")),
+                            ElevatedButton(
+                                onPressed: () => {},
+                                style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 255, 165, 159))),
+                                child: const Text("Delete", style: TextStyle(color: Colors.white)))
+                          ])),
+                  Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: ElevatedButton(
+                          onPressed: () => {Navigator.pop(context)},
+                          child: const Text("Return"))),
+                ])
               ],
             )));
   }

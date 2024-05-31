@@ -73,7 +73,7 @@ class _DonationDrivesPageState extends State<DonationDrivesPage> {
           onPressed: () {
             // modal input for title and description
           },
-          label: const Text('Create Donation Drive'),
+          label: const Text('Add Donation Drive'),
           icon: const Icon(Icons.add),
         ));
   }
