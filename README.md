@@ -1,4 +1,4 @@
-### KalingApp (CMSC 23 Project)
+# KalingApp (CMSC 23 Project)
 ## Group Members:
 Tom Cristian R. Guerra
 Christian B. Rojano
@@ -27,13 +27,13 @@ Functionalities implemented for each user are specified below:
 * View donors
 
 
-# Installation Guide
+### Installation Guide
 To install the app, do the steps below:
 
 1.
 
 
-# How to use the App
+### How to use the App
 1. Sign-up as donor/organization and fill out the needed fields as needed
 2. Login
 
