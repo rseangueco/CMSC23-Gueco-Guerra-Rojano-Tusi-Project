@@ -1,7 +1,7 @@
 # KalingApp (CMSC 23 Project)
 ## Group Members:
-1. Tom Cristian R. Guerra
-2. Christian B. Rojano
+* Christian B. Rojano
+* Tom Cristian R. Guerra
 
 ## Program Description
 KalingApp is a mobile application that handles donations between donors and organizations.
@@ -39,8 +39,8 @@ To install the app, do the steps below:
 ## How to use the App
 1. Sign-up as donor/organization and fill out the needed fields as needed
 2. Login
+3. For each user,
 
-3. 
 **(a)** For donors:
     1. In the homepage, select an organization that is open for donations to make donations to
     2. Fill out the details needed for the donation
