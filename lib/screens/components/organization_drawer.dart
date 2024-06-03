@@ -1,7 +1,9 @@
+import "package:cmsc23_project/providers/auth_provider.dart";
 import "package:cmsc23_project/screens/donation_drives_page.dart";
 import "package:cmsc23_project/screens/organization_page.dart";
 import "package:cmsc23_project/screens/profile_page.dart";
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
 
 class OrganizationDrawer extends StatelessWidget {
   final String userId;
@@ -29,26 +31,29 @@ class OrganizationDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Donation Drives'),
             onTap: () {
-              // Navigator.pop(context);
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (context) => const DonationDrivesPage(),
-              //   ),
-              // );
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const DonationDrivesPage(),
+                ),
+              );
             },
           ),
           ListTile(
             title: const Text('Profile'),
             onTap: () {
-              MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
               );
             },
           ),
           ListTile(
             title: const Text('Logout'),
             onTap: () {
-              // TODO: logout
+              context.read<AuthProvider>().signOut();
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),
         ],

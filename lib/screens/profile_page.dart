@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //   type: "Donor",
   // );
 
-  final user = UserDetails(
+  UserDetails user = UserDetails(
       username: 'org_username',
       name: 'test_org',
       contactNo: '09123456789',
@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
       type: "Organization",
       organizationId: "org_id");
 
-  final org = Organization(
+  Organization org = Organization(
       userId: 'org_id',
       name: 'test_org',
       // about: "about..",
@@ -109,6 +109,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         onPressed: () {
                           setState(() {
                             // TODO: update donation status
+                            setState(() {
+                              if (org.donationStatus == "Closed"){
+                                org.donationStatus = "Open";
+                              }else{
+                                org.donationStatus = "Closed";
+                              }
+                            });
                           });
                         },
                         style: ButtonStyle(

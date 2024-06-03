@@ -53,7 +53,7 @@ class RootWidget extends StatelessWidget {
         '/donors-page': (context) => const DonorHomePage(),
         '/donate-page': (context) => const DonatePage(),
         '/donor-donations': (context) => const DonorDonationsPage(),
-        'donation-info': (context) => const DonationInfoPage(),
+        '/donation-info': (context) => const DonationInfoPage(),
         '/signup': (context) => const SignupPage(),
         '/profile': (context) => const ProfilePage(),
         '/org-home': (context) => const OrganizationPage(),
@@ -64,15 +64,15 @@ class RootWidget extends StatelessWidget {
             child: SignupPage(), 
         )*/
       },
-      // onGenerateRoute: (settings) {
-      //   if (settings.name == DonationDriveInfoPage.routename) {
-      //     final args = settings.arguments as DonationDriveScreenArguments;
-      //     return MaterialPageRoute(builder: (context) {
-      //       return DonationDriveInfoPage(drive: args.drive);
-      //     });
-      //   }
-      //   return null;
-      // },
+      onGenerateRoute: (settings) {
+        if (settings.name == DonationDriveInfoPage.routename) {
+          final args = settings.arguments as DonationDriveScreenArguments;
+          return MaterialPageRoute(builder: (context) {
+            return DonationDriveInfoPage(drive: args.drive);
+          });
+        }
+        return null;
+      },
     );
   }
 }
