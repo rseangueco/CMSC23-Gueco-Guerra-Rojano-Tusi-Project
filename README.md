@@ -33,7 +33,11 @@ Functionalities implemented for each user are specified below:
 ## Installation Guide
 To install the app, do the steps below:
 
-1.
+1. Clone this repository to your local machine (See https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+2. Navigate to the root folder using your terminal
+3. Type in the terminal `flutter build apk` 
+4. The resulting apk would be inside the `..\CMSC23-Gueco-Guerra-Rojano-Tusi-Project\build\app\outputs\flutter-apk\app-release.apk` folder
+5. Install this apk in your mobile device to use the application.
 
 
 ## How to use the App
@@ -54,4 +58,4 @@ To install the app, do the steps below:
 3. Select "Link donations"
     - Link or unlink a donation by pressing the LINK/✔ button, respectively per donation item
 
-4. Logout
+
