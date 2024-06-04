@@ -394,31 +394,33 @@ class _SignupPageState extends State<SignupPage> {
             ),
             Form(
                 key: _signupFormKey,
-                child: Column(children: [
-                  signUpTypeSelect,
-                  name,
-                  (signUpType == 'Organization') ? orgName : Container(),
-                  username,
-                  password,
-                  contactNo,
-                  address,
-                  addAddressButton,
-                  (signUpType == 'Organization')
-                      ? ProofUpload(
-                          uploadLabelText: 'Add Proof of Legitimacy',
-                          callback: (Map<String, String> proof) {
-                            setState(() {
-                              _legitimacyProofs.add(proof['proof']!);
-                              _proofsName.add(proof['name']!);
-                              showProofErrorMessage = false;
-                            });
-                          })
-                      : Container(),
-                  showProofErrorMessage ? proofErrorMessage : Container(),
-                  (signUpType == 'Organization') ? proofs : Container(),
-                  signUpButton,
-                  backButton
-                ]))
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    signUpTypeSelect,
+                    name,
+                    (signUpType == 'Organization') ? orgName : Container(),
+                    username,
+                    password,
+                    contactNo,
+                    address,
+                    addAddressButton,
+                    (signUpType == 'Organization')
+                        ? ProofUpload(
+                            uploadLabelText: 'Add Proof of Legitimacy',
+                            callback: (Map<String, String> proof) {
+                              setState(() {
+                                _legitimacyProofs.add(proof['proof']!);
+                                _proofsName.add(proof['name']!);
+                                showProofErrorMessage = false;
+                              });
+                            })
+                        : Container(),
+                    showProofErrorMessage ? proofErrorMessage : Container(),
+                    (signUpType == 'Organization') ? proofs : Container(),
+                    signUpButton,
+                    backButton
+                  ]),
+                ))
           ],
         ),
       ),
